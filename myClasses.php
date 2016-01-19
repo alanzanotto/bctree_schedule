@@ -750,9 +750,60 @@ include 'db_connection.php';
 //Retrieve POST Values
 $new_schedule_value = $schedule_id;
 
-echo "hello there";
+
+/** Include PHPExcel */
+require_once dirname(__FILE__) . '/PHPExcel_1.8.0_doc/Classes/PHPExcel.php';
+
+// Create new PHPExcel object
+$objPHPExcel = new PHPExcel();
+
+// Set document properties
+//echo date('H:i:s') , " Set document properties" , EOL;
+$objPHPExcel->getProperties()->setCreator("Alan Zanotto")
+							 ->setLastModifiedBy("Alan Zanotto")
+							 ->setTitle("PHPExcel Test Document")
+							 ->setSubject("PHPExcel Test Document")
+							 ->setDescription("Test document for PHPExcel, generated using PHP classes.")
+							 ->setKeywords("office PHPExcel php")
+							 ->setCategory("Test result file");
+
+// Add some data
+//echo date('H:i:s') , " Add some data" , EOL;
+$objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'New')
+            ->setCellValue('B2', 'world!')
+            ->setCellValue('C1', 'Hello')
+            ->setCellValue('D2', 'world!');
+
+// Rename worksheet
+//echo date('H:i:s') , " Rename worksheet" , EOL;
+$objPHPExcel->getActiveSheet()->setTitle('schedule');
+
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+$objPHPExcel->setActiveSheetIndex(0);
+
+
+// Save Excel 2007 file
+//echo date('H:i:s') , " Write to Excel2007 format" , EOL;
+$callStartTime = microtime(true);
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+//$objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+$objWriter->save('Schedule.xlsx');
+
+echo 'The schedule has been created, click to download: ';
+echo '<a href="Schedule.xlsx" target="_blank" >Download</a>';
+$callEndTime = microtime(true);
+$callTime = $callEndTime - $callStartTime;
+
+//echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
+//echo 'Call time to write Workbook was ' , sprintf('%.4f',$callTime) , " seconds" , EOL;
+
+// Echo done
+//echo date('H:i:s') , " Done writing files" , EOL;
 
 }//END function generateExcelSchedule($schedule_id)
+
 
 
 
