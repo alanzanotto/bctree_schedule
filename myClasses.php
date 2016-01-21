@@ -770,10 +770,12 @@ $objPHPExcel->getProperties()->setCreator("Alan Zanotto")
 // Add some data
 //echo date('H:i:s') , " Add some data" , EOL;
 $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'New')
-            ->setCellValue('B2', 'world!')
-            ->setCellValue('C1', 'Hello')
-            ->setCellValue('D2', 'world!');
+            ->setCellValue('A1', 'Position')
+            ->setCellValue('B1', 'First Name')
+            ->setCellValue('C1', 'Last Name')
+            ->setCellValue('D1', 'Shift')
+            ->setCellValue('E1', 'Location')
+            ->setCellValue('F1', 'Station');
 
 // Rename worksheet
 //echo date('H:i:s') , " Rename worksheet" , EOL;
@@ -781,6 +783,64 @@ $objPHPExcel->getActiveSheet()->setTitle('schedule');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
+
+
+//Loop through a schedule and add peoples name sinto the cells.  Increment cell value each time.
+
+//retrieve the schedule.
+$sql_schedule = 
+"SELECT * 
+FROM `".$db."`.`schedule_saved`
+WHERE `ID_schedule` = ".$new_schedule_value. "
+ORDER BY `schedule_saved`.`ID_schedule_position` ASC, `schedule_saved`.`ID_employee` ASC";
+$result_schedule = $link->query($sql_schedule);
+
+$cell_value = 2;
+
+//Loop through the people in the schedule
+while ($row = $result_schedule->fetch_assoc())
+{
+//Setup Variables.
+$employee_ID = $row['ID_employee'];
+$schedule_position_ID = $row['ID_schedule_position'];
+$shift = $row['shift'];
+
+//Retrieve extra information  (employee information/ position information)
+$sql_employee_information = " 
+SELECT senority, first_name, last_name
+FROM `".$db."`.`employee`
+WHERE ID = ".$employee_ID;
+$result_employee_information = $link->query($sql_employee_information);
+$object_employee_information = $result_employee_information->fetch_assoc();
+$employee_senority = $object_employee_information['senority'];
+$employee_first_name = $object_employee_information['first_name'];
+$employee_last_name = $object_employee_information['last_name'];
+
+//Retrieve position name 
+$sql_position_information = "
+SELECT name
+FROM `".$db."`.`schedule_position`
+WHERE ID = ".$schedule_position_ID;
+//echo $sql_position_information;
+$result_position_information = $link->query($sql_position_information);
+$object_position_information = $result_position_information->fetch_assoc();
+$schedule_position_name = $object_position_information['name'];
+
+
+//Write the user into the spreadsheet.
+$objPHPExcel->setActiveSheetIndex(0)
+			->setCellValue('A'.$cell_value, $schedule_position_name)
+            ->setCellValue('B'.$cell_value, $employee_first_name)
+            ->setCellValue('C'.$cell_value, $employee_last_name)
+            ->setCellValue('E'.$cell_value, $shift)
+            ->setCellValue('E'.$cell_value, 'Location')
+            ->setCellValue('F'.$cell_value, 'Station');
+
+echo "cell value = " . $cell_value;
+$cell_value = $cell_value + 1;
+}//End While
+
+
 
 
 // Save Excel 2007 file
@@ -791,16 +851,11 @@ $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 //$objWriter->save(str_replace('.php', '.xlsx', __FILE__));
 $objWriter->save('Schedule.xlsx');
 
-echo 'The schedule has been created, click to download: ';
+echo 'The schedule has been created, click to ';
 echo '<a href="Schedule.xlsx" target="_blank" >Download</a>';
 $callEndTime = microtime(true);
 $callTime = $callEndTime - $callStartTime;
 
-//echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
-//echo 'Call time to write Workbook was ' , sprintf('%.4f',$callTime) , " seconds" , EOL;
-
-// Echo done
-//echo date('H:i:s') , " Done writing files" , EOL;
 
 }//END function generateExcelSchedule($schedule_id)
 
