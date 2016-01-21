@@ -150,6 +150,10 @@ $emp_shift_num_opposite = 0;
 //RETRIEVE AVAILABLE SPOT INFORMATION
 //RETRIEVE PP_DS Is PP available on DS.
 //RETRIEVE PP_NS is PP available on NS.
+//PP = Posted Position 
+//DS = Day Shift
+//NS = Night Shift
+//This is a preference variable. It will use this to try and give them their preferred shift. 
 $PP_DS = calculatePP_DS($link, $db, $emp_posted_position, $temp_template_id, $schedule_ID);
 //echo "PP_DS: ".$PP_DS ."</br>";
 $PP_NS = calculatePP_NS($link, $db, $emp_posted_position, $temp_template_id, $schedule_ID);
@@ -168,7 +172,7 @@ if (  (($PP_DS == 1) && ($PP_NS == 1) && ($SP == 1)) ||
 	  
 	  {
 	  //echo "FIRST CASE: ";
-	  //Give the emp their posted position on their shift preference.
+	  //In this case, Give the emp their posted position on their shift preference.  Best case for employee.
 	  //echo $emp_first_name ." got to this point";
 	  $job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift, $temp_template_id, $schedule_ID);
 	  $job_facility = findFacility($job_id);
@@ -187,6 +191,7 @@ elseif ( (($PP_DS == 1) && ($PP_NS == 0) && ($SP == 1)) ||
 		
 		{
 		//echo "SECOND CASE: ";
+		//The employee will get their PP job but on the opposite shift that they prefer.  They wanted Nights But get bumped to Days due to their PP.
 		//Give emp $PP_DS
 		$emp_shift_num = 0;//only day shift PP available. 0 = Day shift
 		$job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift_num, $temp_template_id, $schedule_ID);
@@ -204,8 +209,9 @@ elseif (( ($PP_DS == 0) && ($PP_NS == 1) && ($SP == 1)) ||
 		( ($PP_DS == NULL) && ($PP_NS == 1) && ($SP == 1) )   )
 		{
 		//echo "THIRD CASE: ";
+		//The employee will get their PP but on the opposite shift they prefered.  They wanted Day, But get bumped to Nights due to their PP.
 		//Give PP_NS
-		$emp_shift_num = 1;//only day shift PP available. 1 = Night shift
+		$emp_shift_num = 1;//only night shift PP available. 1 = Night shift
 		$job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift_num, $temp_template_id, $schedule_ID);
 		$job_facility = findFacility($job_id);
 		$job_station = findStation($job_id);
@@ -217,7 +223,9 @@ elseif (( ($PP_DS == 0) && ($PP_NS == 1) && ($SP == 1)) ||
 elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==1)) 
 		{
 		//echo "FORTH CASE: ";
-		//Give SP as a sorter
+		//This case happens when their Posted Position are all taken, but there is still room on the schedule as a sorter.  
+		//So they will get scheduled onto their shift prefence(day or night) as a sorter 
+		//Give SP(Shift Preference) as a sorter
 		$emp_posted_position = "18";//18 is sorter
 		$job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift, $temp_template_id, $schedule_ID);
 		$job_facility = findFacility($job_id);
@@ -232,6 +240,8 @@ elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==1))
 elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==0)) 
 		{
 		//echo "SIXTH CASE: ";
+		//This case happens when their Posted Position are all taken, and their shift prefence is all taken as well.  
+		//So they will get scheduled onto (day or night) as a sorter. ****IF there is a spot available, else the schedule is full at this point****
 		//Give SP as a sorter if there is a spot on the schedule
 		//check if sorters PP is full.
 		if ( !isSortersFull($link, $db, $temp_template_id, $schedule_ID) )
@@ -245,13 +255,16 @@ elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==0))
 		}
 		else
 		{
+		echo "The schedule is now FULL."
 		//echo "Sorry!  No more sorters allowed on the schedule";
 		}
 
 		}//end elseif SIXTH CASE
 else
-{//fail..what just happened?
-echo "SEVENTH CASE: ??????How did it get here??????";
+{
+//fail..what just happened?.  The code should never reach this else, but if it does, it shouldn't do anything to how the schedule is created.  I have yet to see this echo appear.
+//I can't think of a scenario where code will get to this spot.  
+echo "SEVENTH CASE: OMG!!! ITS HAPPENING!!!! CALL ALAN!!!!!";
 //go to the next person in the list.  
 //The schedule probably had very little amount of positions and specific 
 //posted position requirement.  
