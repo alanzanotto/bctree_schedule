@@ -804,6 +804,11 @@ while ($row = $result_schedule->fetch_assoc())
 $employee_ID = $row['ID_employee'];
 $schedule_position_ID = $row['ID_schedule_position'];
 $shift = $row['shift'];
+$shift_english;
+if ($shift == 0)
+$shift_english = "Day";
+else
+$shift_english = "Afternoon";
 
 //Retrieve extra information  (employee information/ position information)
 $sql_employee_information = " 
@@ -832,11 +837,12 @@ $objPHPExcel->setActiveSheetIndex(0)
 			->setCellValue('A'.$cell_value, $schedule_position_name)
             ->setCellValue('B'.$cell_value, $employee_first_name)
             ->setCellValue('C'.$cell_value, $employee_last_name)
-            ->setCellValue('E'.$cell_value, $shift)
+            ->setCellValue('D'.$cell_value, $shift_english)
             ->setCellValue('E'.$cell_value, 'Location')
             ->setCellValue('F'.$cell_value, 'Station');
 
 echo "cell value = " . $cell_value;
+echo "shift value = " . $shift;
 $cell_value = $cell_value + 1;
 }//End While
 
