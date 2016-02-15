@@ -94,13 +94,9 @@ $result_PP_NS_quantity = $link->query($sql_PP_NS_quantity);
 $object_PP_NS_quantity = $result_PP_NS_quantity->fetch_assoc();
 $PP_NS_quantity = $object_PP_NS_quantity['quantity'];//pp_ds_quantity is the sum of jobs, that require said positions, that are required for Night shift.
 //echo "ECHO NS_QUANTITY: ".$PP_NS_quantity;
-//echo "NS_Saved: ".$PP_NS_saved. " NS_QUANTITY: " .$PP_NS_quantity;
+echo "NS_Saved: ".$PP_NS_saved. " NS_QUANTITY: " .$PP_NS_quantity;
 
-if ($PP_NS_quantity == NULL)
-{
-	return NULL;
-}
-else if ($PP_NS_saved < $PP_NS_quantity)
+if ($PP_NS_saved < $PP_NS_quantity)
 {
 	return 1;//There is an available PP spot on Night Shift
 }
@@ -241,7 +237,7 @@ AND sp.ID_posted_position_requirement = ".$emp_posted_position. "
 AND stpla.shift = ". $emp_shift_preference. "
 AND stpla.scheduled = 0
 ";
-//echo $sql;
+echo $sql;
 $result = $link->query($sql);
 $object = $result->fetch_assoc();
 
@@ -390,7 +386,7 @@ $result_num_positions_needed = $link->query($sql_num_positions_needed);
 //echo $sql_num_positions_needed;
 $object_num_positions_needed = $result_num_positions_needed->fetch_assoc();
 $num_positions_needed = $object_num_positions_needed['num_positions_needed'];
-//echo " number of positoins needed: " .$num_positions_needed;
+echo " number of positoins needed: " .$num_positions_needed;
 
 //num of positions in the schedule
 $sql_num_saved_positions_scheduled = 
@@ -401,7 +397,7 @@ WHERE `schedule_saved`.`ID_schedule` = ". $schedule_ID;
 $result_num_saved_positions_scheduled = $link->query($sql_num_saved_positions_scheduled);
 $object_num_saved_positions_scheduled = $result_num_saved_positions_scheduled->fetch_assoc();
 $num_saved_positions_scheduled = $object_num_saved_positions_scheduled['num_saved_positions_scheduled'];
-//echo "  num_saved_positions_scheduled: ".$num_saved_positions_scheduled;
+echo "  num_saved_positions_scheduled: ".$num_saved_positions_scheduled;
 
 if ($num_saved_positions_scheduled < $num_positions_needed)
 	{
