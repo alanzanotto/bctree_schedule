@@ -227,7 +227,11 @@ elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==1))
 		//So they will get scheduled onto their shift prefence(day or night) as a sorter 
 		//Give SP(Shift Preference) as a sorter
 		$emp_posted_position = "18";//18 is sorter
+		echo "emp_id=".$emp_id;
+		echo "jobid=".$job_id;
 		$job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift, $temp_template_id, $schedule_ID);
+		echo "jobid=".$job_id;
+		echo "</br>";
 		$job_facility = findFacility($job_id);
 		$job_station = findStation($job_id);
 		//echo "jobid = ".$job_id;
@@ -255,7 +259,8 @@ elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==0))
 		}
 		else
 		{
-		echo "The schedule is now FULL."
+		//echo "The schedule is now typically FULL at this point, or the schedule is looking for the non rotational and or a specific persons posted position to fill the remaining jobs.";
+		//Ex: No sorters spots left, but schedule needs to find a PP that hasn't been filled yet. Can mean a lower senority person with a PP.
 		//echo "Sorry!  No more sorters allowed on the schedule";
 		}
 
@@ -272,7 +277,10 @@ echo "SEVENTH CASE: OMG!!! ITS HAPPENING!!!! CALL ALAN!!!!!";
 
 
 
-
+echo "JobID=".$job_id;
+echo "<br>";
+echo "<br>";
+echo "<br>";
 }//end ELSE(scheduling of said employee).
 
 }//END LOOP

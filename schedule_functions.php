@@ -245,7 +245,7 @@ AND stpla.scheduled = 0
 $result = $link->query($sql);
 $object = $result->fetch_assoc();
 
-
+echo "query rows".mysqli_num_rows($result);
 return $object['ID'];
 //Include database Termination Script
 include 'db_disconnect.php';
@@ -297,6 +297,24 @@ include 'db_disconnect.php';
 return $facility_id;
 }
 
+function findFacilityName($job_id)
+{
+//Include database Connection Script
+include 'db_connection.php';
+
+$sql = '
+SELECT *
+FROM `'.$db.'`.`schedule_facility`
+WHERE ID = '. $job_id;
+$result = $link->query($sql);
+$object = $result->fetch_assoc();
+$facility_name = $object['name'];
+
+
+//Include database Termination Script
+include 'db_disconnect.php';
+return $facility_name;
+}
 
 
 
@@ -313,9 +331,29 @@ $result = $link->query($sql);
 $object = $result->fetch_assoc();
 $station_id = $object['station'];
 
+
 //Include database Termination Script
 include 'db_disconnect.php';
 return $station_id;
+}
+
+function findStationName($job_id)
+{
+//Include database Connection Script
+include 'db_connection.php';
+
+$sql = '
+SELECT *
+FROM `'.$db.'`.`schedule_station`
+WHERE ID = '. $job_id;
+$result = $link->query($sql);
+$object = $result->fetch_assoc();
+$station_name = $object['name'];
+
+
+//Include database Termination Script
+include 'db_disconnect.php';
+return $station_name;
 }
 
 
@@ -336,6 +374,8 @@ $ID_schedule_position = $object['ID_schedule_position'];
 include 'db_disconnect.php';
 return $ID_schedule_position;
 }
+
+
 
 
 function isScheduleFull($link, $db, $schedule_ID, $template_ID)

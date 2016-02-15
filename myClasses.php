@@ -747,6 +747,7 @@ public function generateExcelSchedule($schedule_id)
 {
 //Include database Connection Script
 include 'db_connection.php';
+include 'schedule_functions.php';
 //Retrieve POST Values
 $new_schedule_value = $schedule_id;
 
@@ -809,6 +810,8 @@ if ($shift == 0)
 $shift_english = "Day";
 else
 $shift_english = "Afternoon";
+$facility_ID = $row['facility'];
+$station_ID = $row['station'];
 
 //Retrieve extra information  (employee information/ position information)
 $sql_employee_information = " 
@@ -832,14 +835,15 @@ $object_position_information = $result_position_information->fetch_assoc();
 $schedule_position_name = $object_position_information['name'];
 
 
+
 //Write the user into the spreadsheet.
 $objPHPExcel->setActiveSheetIndex(0)
 			->setCellValue('A'.$cell_value, $schedule_position_name)
             ->setCellValue('B'.$cell_value, $employee_first_name)
             ->setCellValue('C'.$cell_value, $employee_last_name)
             ->setCellValue('D'.$cell_value, $shift_english)
-            ->setCellValue('E'.$cell_value, 'Location')
-            ->setCellValue('F'.$cell_value, 'Station');
+            ->setCellValue('E'.$cell_value, findStationName($station_ID))
+            ->setCellValue('F'.$cell_value, findFacilityName($facility_ID));
 
 echo "cell value = " . $cell_value;
 echo "shift value = " . $shift;
