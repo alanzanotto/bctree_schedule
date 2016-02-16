@@ -170,6 +170,7 @@ function isSortersFull($link, $db, $template_ID, $schedule_ID)
 {
 
 //see how many sorters have been put on the schedule
+/*
 $sql_sorters_saved = "
 SELECT count(sp.id_posted_position_requirement) total
 FROM `".$db."`.`schedule_position` sp,
@@ -199,9 +200,40 @@ $sorters_quantity = $object_sorters_quantity['quantity'];
 
 //echo "sorters saved = " .$sorters_saved ;
 //echo " | sorters quantity = " .$sorters_quantity;
+*/
+//Finds and sums up all the remaining available sorter spots.
+$sql_sorter_remaining = 
+"
+SELECT sum(quantity) quantity
+FROM `".$db."`.`schedule_template_position_list_auto` stpl,
+`".$db."`.`schedule_position`sp
+WHERE 
+stpl.id_schedule_position = sp.id 
+AND stpl.id_template = ".$template_ID ."  
+AND sp.id_posted_position_requirement = 18
+AND stpl.scheduled = 0
+";
+$result_sorter_remaining = $link->query($sql_sorter_remaining);
+$object_sorter_remaining = $result_sorter_remaining->fetch_assoc();
+$sorter_remaining = $object_sorter_remaining['quantity'];
+
+//find out how many sorter spots there are on the schedule.
+$sql_sorter_total = 
+"
+SELECT sum(quantity) quantity
+FROM `".$db."`.`schedule_template_position_list_auto` stpl,
+`".$db."`.`schedule_position`sp
+WHERE 
+stpl.id_schedule_position = sp.id 
+AND stpl.id_template = ".$template_ID ."  
+AND sp.id_posted_position_requirement = 18
+";
+$result_sorter_total = $link->query($sql_sorter_total);
+$object_sorter_total = $result_sorter_total->fetch_assoc();
+$sorter_total = $object_sorter_total['quantity'];
 
 //if the amount of sorters currently on the schedule is equivalent to the amount of sorters allowed, then isSortersFull = 1 (true).
-if ( ($sorters_saved == $sorters_quantity) || $sorters_quantity == "")
+if ( ($sorters_remaining == $sorters_total))
 	{
 		
 		return true;//the amount of sorters on the schedule HAS been reached.
