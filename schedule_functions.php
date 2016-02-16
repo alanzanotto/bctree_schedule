@@ -168,39 +168,6 @@ if ($SP_saved < $SP_quantity)
 //Retruns 0 or 1.  0 if there is no spot available on SP, 1 if there is a spot available on SP.  The Spot looks at sorter positions.
 function isSortersFull($link, $db, $template_ID, $schedule_ID)
 {
-
-//see how many sorters have been put on the schedule
-/*
-$sql_sorters_saved = "
-SELECT count(sp.id_posted_position_requirement) total
-FROM `".$db."`.`schedule_position` sp,
-`".$db."`.`schedule_saved` ss
-WHERE ss.id_schedule_position = sp.id 
-AND ss.id_schedule = ".$schedule_ID ."
-AND sp.id_posted_position_requirement = 18";
-//echo $sql_SP_saved;
-$result_sorters_saved = $link->query($sql_sorters_saved);
-$object_sorters_saved = $result_sorters_saved->fetch_assoc();
-$sorters_saved = $object_sorters_saved['total'];
-
-
-//see how many sorters are allowed onto the schedule.
-$sql_sorters_quantity = 
-"
-SELECT sum(quantity) quantity
-FROM `".$db."`.`schedule_template_position_list_auto` stpl,
-`".$db."`.`schedule_position`sp
-WHERE 
-stpl.id_schedule_position = sp.id 
-AND stpl.id_template = ".$template_ID ."  
-AND sp.id_posted_position_requirement = 18";
-$result_sorters_quantity = $link->query($sql_sorters_quantity);
-$object_sorters_quantity = $result_sorters_quantity->fetch_assoc();
-$sorters_quantity = $object_sorters_quantity['quantity'];
-
-//echo "sorters saved = " .$sorters_saved ;
-//echo " | sorters quantity = " .$sorters_quantity;
-*/
 //Finds and sums up all the remaining available sorter spots.
 $sql_sorter_remaining = 
 "
