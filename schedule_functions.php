@@ -94,13 +94,9 @@ $result_PP_NS_quantity = $link->query($sql_PP_NS_quantity);
 $object_PP_NS_quantity = $result_PP_NS_quantity->fetch_assoc();
 $PP_NS_quantity = $object_PP_NS_quantity['quantity'];//pp_ds_quantity is the sum of jobs, that require said positions, that are required for Night shift.
 //echo "ECHO NS_QUANTITY: ".$PP_NS_quantity;
-//echo "NS_Saved: ".$PP_NS_saved. " NS_QUANTITY: " .$PP_NS_quantity;
+echo "NS_Saved: ".$PP_NS_saved. " NS_QUANTITY: " .$PP_NS_quantity;
 
-if ($PP_NS_quantity == NULL)
-{
-	return NULL;
-}
-else if ($PP_NS_saved < $PP_NS_quantity)
+if ($PP_NS_saved < $PP_NS_quantity)
 {
 	return 1;//There is an available PP spot on Night Shift
 }
@@ -172,23 +168,8 @@ if ($SP_saved < $SP_quantity)
 //Retruns 0 or 1.  0 if there is no spot available on SP, 1 if there is a spot available on SP.  The Spot looks at sorter positions.
 function isSortersFull($link, $db, $template_ID, $schedule_ID)
 {
-
-//see how many sorters have been put on the schedule
-$sql_sorters_saved = "
-SELECT count(sp.id_posted_position_requirement) total
-FROM `".$db."`.`schedule_position` sp,
-`".$db."`.`schedule_saved` ss
-WHERE ss.id_schedule_position = sp.id 
-AND ss.id_schedule = ".$schedule_ID ."
-AND sp.id_posted_position_requirement = 18";
-//echo $sql_SP_saved;
-$result_sorters_saved = $link->query($sql_sorters_saved);
-$object_sorters_saved = $result_sorters_saved->fetch_assoc();
-$sorters_saved = $object_sorters_saved['total'];
-
-
-//see how many sorters are allowed onto the schedule.
-$sql_sorters_quantity = 
+//Finds and sums up all the remaining available sorter spots.
+$sql_sorter_remaining = 
 "
 SELECT sum(quantity) quantity
 FROM `".$db."`.`schedule_template_position_list_auto` stpl,
@@ -196,16 +177,30 @@ FROM `".$db."`.`schedule_template_position_list_auto` stpl,
 WHERE 
 stpl.id_schedule_position = sp.id 
 AND stpl.id_template = ".$template_ID ."  
-AND sp.id_posted_position_requirement = 18";
-$result_sorters_quantity = $link->query($sql_sorters_quantity);
-$object_sorters_quantity = $result_sorters_quantity->fetch_assoc();
-$sorters_quantity = $object_sorters_quantity['quantity'];
+AND sp.id_posted_position_requirement = 18
+AND stpl.scheduled = 0
+";
+$result_sorter_remaining = $link->query($sql_sorter_remaining);
+$object_sorter_remaining = $result_sorter_remaining->fetch_assoc();
+$sorter_remaining = $object_sorter_remaining['quantity'];
 
-//echo "sorters saved = " .$sorters_saved ;
-//echo " | sorters quantity = " .$sorters_quantity;
+//find out how many sorter spots there are on the schedule.
+$sql_sorter_total = 
+"
+SELECT sum(quantity) quantity
+FROM `".$db."`.`schedule_template_position_list_auto` stpl,
+`".$db."`.`schedule_position`sp
+WHERE 
+stpl.id_schedule_position = sp.id 
+AND stpl.id_template = ".$template_ID ."  
+AND sp.id_posted_position_requirement = 18
+";
+$result_sorter_total = $link->query($sql_sorter_total);
+$object_sorter_total = $result_sorter_total->fetch_assoc();
+$sorter_total = $object_sorter_total['quantity'];
 
 //if the amount of sorters currently on the schedule is equivalent to the amount of sorters allowed, then isSortersFull = 1 (true).
-if ( ($sorters_saved == $sorters_quantity) || $sorters_quantity == "")
+if ( ($sorters_remaining == $sorters_total))
 	{
 		
 		return true;//the amount of sorters on the schedule HAS been reached.
@@ -241,11 +236,11 @@ AND sp.ID_posted_position_requirement = ".$emp_posted_position. "
 AND stpla.shift = ". $emp_shift_preference. "
 AND stpla.scheduled = 0
 ";
-//echo $sql;
+echo $sql;
 $result = $link->query($sql);
 $object = $result->fetch_assoc();
 
-
+echo "query rows".mysqli_num_rows($result);
 return $object['ID'];
 //Include database Termination Script
 include 'db_disconnect.php';
@@ -297,6 +292,24 @@ include 'db_disconnect.php';
 return $facility_id;
 }
 
+function findFacilityName($job_id)
+{
+//Include database Connection Script
+include 'db_connection.php';
+
+$sql = '
+SELECT *
+FROM `'.$db.'`.`schedule_facility`
+WHERE ID = '. $job_id;
+$result = $link->query($sql);
+$object = $result->fetch_assoc();
+$facility_name = $object['name'];
+
+
+//Include database Termination Script
+include 'db_disconnect.php';
+return $facility_name;
+}
 
 
 
@@ -313,9 +326,29 @@ $result = $link->query($sql);
 $object = $result->fetch_assoc();
 $station_id = $object['station'];
 
+
 //Include database Termination Script
 include 'db_disconnect.php';
 return $station_id;
+}
+
+function findStationName($job_id)
+{
+//Include database Connection Script
+include 'db_connection.php';
+
+$sql = '
+SELECT *
+FROM `'.$db.'`.`schedule_station`
+WHERE ID = '. $job_id;
+$result = $link->query($sql);
+$object = $result->fetch_assoc();
+$station_name = $object['name'];
+
+
+//Include database Termination Script
+include 'db_disconnect.php';
+return $station_name;
 }
 
 
@@ -338,6 +371,8 @@ return $ID_schedule_position;
 }
 
 
+
+
 function isScheduleFull($link, $db, $schedule_ID, $template_ID)
 {
 //CHECK TO SEE IF SCHEUDLE IS FULL.  IF FULL THEN SCHEDULE IS DONE.
@@ -350,7 +385,7 @@ $result_num_positions_needed = $link->query($sql_num_positions_needed);
 //echo $sql_num_positions_needed;
 $object_num_positions_needed = $result_num_positions_needed->fetch_assoc();
 $num_positions_needed = $object_num_positions_needed['num_positions_needed'];
-//echo " number of positoins needed: " .$num_positions_needed;
+echo " number of positoins needed: " .$num_positions_needed;
 
 //num of positions in the schedule
 $sql_num_saved_positions_scheduled = 
@@ -361,7 +396,7 @@ WHERE `schedule_saved`.`ID_schedule` = ". $schedule_ID;
 $result_num_saved_positions_scheduled = $link->query($sql_num_saved_positions_scheduled);
 $object_num_saved_positions_scheduled = $result_num_saved_positions_scheduled->fetch_assoc();
 $num_saved_positions_scheduled = $object_num_saved_positions_scheduled['num_saved_positions_scheduled'];
-//echo "  num_saved_positions_scheduled: ".$num_saved_positions_scheduled;
+echo "  num_saved_positions_scheduled: ".$num_saved_positions_scheduled;
 
 if ($num_saved_positions_scheduled < $num_positions_needed)
 	{
@@ -374,6 +409,44 @@ if ($num_saved_positions_scheduled < $num_positions_needed)
 
 }//function isScheduleFull($schedule_ID, $template_ID)
 
+
+
+function addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $template_ID)
+{
+	//Identify All the Positions that are not filled.
+	$sql_unfilled_positions = 
+	"
+	SELECT *
+	FROM `".$db."`.`schedule_template_position_list_auto`
+	WHERE 
+	id_template = ".$template_ID ."
+	AND scheduled = 0
+	";
+	$result_unfilled_positions = $link->query($sql_unfilled_positions);
+	
+	//If there is any positions that are unfilled.  Add them to the scheudle with an employee id as 0.
+	echo "results from addingpositios....".mysqli_num_rows($result_unfilled_positions);
+	if (mysqli_num_rows($result_unfilled_positions) > 0)
+	{
+	//Loop through the list of unfilled positions and then add them to the schedule with an employee id = 0.
+	while($row = $result_unfilled_positions->fetch_assoc())
+	{
+		$job_id = $row['ID'];
+		$ID_schedule_position = $row['ID_schedule_position'];
+		echo "Unfilled positions job id=".$job_id;
+		echo "Unfilled positions ID_schedule_position=".$ID_schedule_position;
+		$emp_id = 0;
+		$emp_shift = $row['shift'];
+		$job_facility = $row['facility'];
+		$job_station = $row['station'];
+		schedule_a_person($schedule_ID, $template_ID, $job_id, $emp_id, $emp_shift, $job_facility, $job_station);
+	}
+	
+	}//end if
+	
+	
+	  
+}
 
 
 ?>
