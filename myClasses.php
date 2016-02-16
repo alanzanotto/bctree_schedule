@@ -792,7 +792,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 $sql_schedule = 
 "SELECT * 
 FROM `".$db."`.`schedule_saved`
-WHERE `ID_schedule` = ".$new_schedule_value. "
+WHERE `ID_schedule` = ".$new_schedule_value. " 
 ORDER BY `schedule_saved`.`ID_schedule_position` ASC, `schedule_saved`.`ID_employee` ASC";
 $result_schedule = $link->query($sql_schedule);
 
@@ -813,7 +813,19 @@ $shift_english = "Afternoon";
 $facility_ID = $row['facility'];
 $station_ID = $row['station'];
 
+//Check here if there is employees with id = 0.  If so then we will set the senority, first_name, last_name manually.  These are positions that are unfilled upon schedule generation.
 //Retrieve extra information  (employee information/ position information)
+$employee_senority = "";
+$employee_first_name = "";
+$employee_last_name = "";
+if ($employee_ID == 0)
+{
+	$employee_senority = 0;
+	$employee_first_name = "UNFILLED POSITION";
+	$employee_last_name = "UNFILLED POSITION";
+}
+else
+{
 $sql_employee_information = " 
 SELECT senority, first_name, last_name
 FROM `".$db."`.`employee`
@@ -823,7 +835,7 @@ $object_employee_information = $result_employee_information->fetch_assoc();
 $employee_senority = $object_employee_information['senority'];
 $employee_first_name = $object_employee_information['first_name'];
 $employee_last_name = $object_employee_information['last_name'];
-
+}
 //Retrieve position name 
 $sql_position_information = "
 SELECT name

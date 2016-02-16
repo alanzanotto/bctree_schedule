@@ -288,6 +288,10 @@ echo "<br>";
 
 }//END LOOP
 
+//Add Positions That are not filled to the schedule.  Use and employee ID as 0.  
+addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $temp_template_id);
+
+echo "delte auto table....";
 $sql_truncate_stpl_auto = "TRUNCATE `".$db."`.`schedule_template_position_list_auto`";
 //echo $sql_truncate_stpl_auto;
 $link->query($sql_truncate_stpl_auto);

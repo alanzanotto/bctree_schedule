@@ -411,4 +411,42 @@ if ($num_saved_positions_scheduled < $num_positions_needed)
 
 
 
+function addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $template_ID)
+{
+	//Identify All the Positions that are not filled.
+	$sql_unfilled_positions = 
+	"
+	SELECT *
+	FROM `".$db."`.`schedule_template_position_list_auto` stpl,
+	`".$db."`.`schedule_position`sp
+	WHERE 
+	stpl.id_schedule_position = sp.id 
+	AND stpl.id_template = ".$template_ID ."
+	AND stpl.scheduled = 0
+	";
+	$result_unfilled_positions = $link->query($sql_unfilled_positions);
+	
+	//If there is any positions that are unfilled.  Add them to the scheudle with an employee id as 0.
+	echo "results from addingpositios....".mysqli_num_rows($result_unfilled_positions);
+	if (mysqli_num_rows($result_unfilled_positions) > 0)
+	{
+	//Loop through the list of unfilled positions and then add them to the schedule with an employee id = 0.
+	while($row = $result_unfilled_positions->fetch_assoc())
+	{
+		$job_id = $row['ID_schedule_position'];
+		echo "Unfilled positions job id=".$job_id;
+		$emp_id = 0;
+		$emp_shift = $row['shift'];
+		$job_facility = $row['facility'];
+		$job_station = $row['station'];
+		schedule_a_person($schedule_ID, $template_ID, $job_id, $emp_id, $emp_shift, $job_facility, $job_station);
+	}
+	
+	}//end if
+	
+	
+	  
+}
+
+
 ?>
