@@ -417,12 +417,10 @@ function addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $template_ID)
 	$sql_unfilled_positions = 
 	"
 	SELECT *
-	FROM `".$db."`.`schedule_template_position_list_auto` stpl,
-	`".$db."`.`schedule_position`sp
+	FROM `".$db."`.`schedule_template_position_list_auto`
 	WHERE 
-	stpl.id_schedule_position = sp.id 
-	AND stpl.id_template = ".$template_ID ."
-	AND stpl.scheduled = 0
+	id_template = ".$template_ID ."
+	AND scheduled = 0
 	";
 	$result_unfilled_positions = $link->query($sql_unfilled_positions);
 	
@@ -433,8 +431,10 @@ function addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $template_ID)
 	//Loop through the list of unfilled positions and then add them to the schedule with an employee id = 0.
 	while($row = $result_unfilled_positions->fetch_assoc())
 	{
-		$job_id = $row['ID_schedule_position'];
+		$job_id = $row['ID'];
+		$ID_schedule_position = $row['ID_schedule_position'];
 		echo "Unfilled positions job id=".$job_id;
+		echo "Unfilled positions ID_schedule_position=".$ID_schedule_position;
 		$emp_id = 0;
 		$emp_shift = $row['shift'];
 		$job_facility = $row['facility'];
