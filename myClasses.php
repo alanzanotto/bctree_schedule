@@ -762,28 +762,69 @@ $objPHPExcel = new PHPExcel();
 //echo date('H:i:s') , " Set document properties" , EOL;
 $objPHPExcel->getProperties()->setCreator("Alan Zanotto")
 							 ->setLastModifiedBy("Alan Zanotto")
-							 ->setTitle("PHPExcel Test Document")
-							 ->setSubject("PHPExcel Test Document")
+							 ->setTitle("Schedule")
+							 ->setSubject("Generated Schedule")
 							 ->setDescription("Test document for PHPExcel, generated using PHP classes.")
 							 ->setKeywords("office PHPExcel php")
-							 ->setCategory("Test result file");
+							 ->setCategory("Schedule");
 
 // Add some data
-//echo date('H:i:s') , " Add some data" , EOL;
-$objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Position')
-            ->setCellValue('B1', 'First Name')
-            ->setCellValue('C1', 'Last Name')
-            ->setCellValue('D1', 'Shift')
-            ->setCellValue('E1', 'Location')
-            ->setCellValue('F1', 'Station');
+//Setup the Three Pages.
+$objPHPExcel->getActiveSheet()->setTitle('Production');
+$objPHPExcel->getActiveSheet()->setBreak( 'J60' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setBreak( 'R60' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setBreak( 'AA60' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setBreak( 'AI60' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->createSheet(1)->setTitle('Sorting');
+$objPHPExcel->createSheet(2)->setTitle('Operations');
 
-// Rename worksheet
-//echo date('H:i:s') , " Rename worksheet" , EOL;
-$objPHPExcel->getActiveSheet()->setTitle('schedule');
 
-// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+//Setup Day Shift Production Header.
 $objPHPExcel->setActiveSheetIndex(0);
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A2:I3');
+$objPHPExcel->getActiveSheet()->getStyle('A2:I3')->getFill()
+    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+    ->getStartColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
+    
+$objPHPExcel->getActiveSheet()->getStyle('A2:I3')
+    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+$objPHPExcel->getActiveSheet()->getStyle('A2:I3')
+    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+$objPHPExcel->getActiveSheet()->getStyle('A2:I3')
+    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+$objPHPExcel->getActiveSheet()->getStyle('A2:I3')
+    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A5:I5');
+$objPHPExcel->getActiveSheet()->getStyle('A5:I5')->getFill()
+    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+    ->getStartColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
+    
+$objPHPExcel->getActiveSheet()->getStyle('A5:I5')
+    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+$objPHPExcel->getActiveSheet()->getStyle('A5:I5')
+    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+$objPHPExcel->getActiveSheet()->getStyle('A5:I5')
+    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+$objPHPExcel->getActiveSheet()->getStyle('A5:I5')
+    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+    
+
+
+
+
+
+
+
+$objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A7', 'Position')
+            ->setCellValue('B7', 'First Name')
+            ->setCellValue('C7', 'Last Name')
+            ->setCellValue('D7', 'Shift')
+            ->setCellValue('E7', 'Location')
+            ->setCellValue('F7', 'Station');
+
+
 
 
 //Loop through a schedule and add peoples name sinto the cells.  Increment cell value each time.
@@ -796,7 +837,7 @@ WHERE `ID_schedule` = ".$new_schedule_value. "
 ORDER BY `schedule_saved`.`ID_schedule_position` ASC, `schedule_saved`.`ID_employee` ASC";
 $result_schedule = $link->query($sql_schedule);
 
-$cell_value = 2;
+$cell_value = 8;
 
 //Loop through the people in the schedule
 while ($row = $result_schedule->fetch_assoc())
