@@ -169,12 +169,15 @@ echo "SP: ".$SP ."</br></br>";
 
 if (  (($PP_DS == 1) && ($PP_NS == 1) && ($SP == 1)) || 
 	  (($PP_DS == 1) && ($PP_NS == 1) && ($SP == 0)) ||
-	  (($PP_DS == 1) && ($PP_NS == NULL) && ($SP == 1)) )
+	  (($PP_DS == 1) && (isset($PP_NS) == false) && ($SP == 1)) )
 	  
 	  {
 	  echo "FIRST CASE: ".$emp_first_name . " ".$emp_last_name;
 	  //In this case, Give the emp their posted position on their shift preference.  Best case for employee.
 	  //echo $emp_first_name ." got to this point";
+	  echo "<br>PP_DS: ". $PP_DS;
+	  echo "<br>PP_NS: ". $PP_NS;
+	  echo "<br>___SP: ". $SP;
 	  $job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift, $temp_template_id, $schedule_ID);
 	  $job_facility = findFacility($job_id);
 	  $job_station = findStation($job_id);
