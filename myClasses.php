@@ -1022,97 +1022,73 @@ $objPHPExcel->setActiveSheetIndex(0)->getStyle('AK5')->getAlignment()->applyFrom
 
 
 
+//DEV: 
+$objPHPExcel->setActiveSheetIndex(1);
 
+//Figure out if there is day and night schedules.  To keep day and night together.  All will be displayed on the same page.
 
-
-
-
-$objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A7', 'Position')
-            ->setCellValue('B7', 'First Name')
-            ->setCellValue('C7', 'Last Name')
-            ->setCellValue('D7', 'Shift')
-            ->setCellValue('E7', 'Location')
-            ->setCellValue('F7', 'Station');
-
-
-
-
-//Loop through a schedule and add peoples name sinto the cells.  Increment cell value each time.
-
-//retrieve the schedule.
-$sql_schedule = 
-"SELECT * 
+//retrieve the shifts on the schedule.  Returns either 1 or 2.
+//1 means either a day or night shift.
+//2 means there is day and night shifts.
+$sql_shifts = 
+"SELECT count(distinct shift) as shifts
 FROM `".$db."`.`schedule_saved`
-WHERE `ID_schedule` = ".$new_schedule_value. " 
-ORDER BY `schedule_saved`.`ID_schedule_position` ASC, `schedule_saved`.`ID_employee` ASC";
-$result_schedule = $link->query($sql_schedule);
+WHERE `ID_schedule` = ".$new_schedule_value. "";
+$result_shifts = $link->query($sql_shifts);
+$object_shifts = $result_shifts->fetch_assoc();
+$shifts = $object_shifts['shifts'];
 
-$cell_value = 8;
 
-//Loop through the people in the schedule
-while ($row = $result_schedule->fetch_assoc())
+//Only one shift to display. Either Day or Night
+if ($shifts = 1)
 {
-//Setup Variables.
-$employee_ID = $row['ID_employee'];
-$schedule_position_ID = $row['ID_schedule_position'];
-$shift = $row['shift'];
-$shift_english;
-if ($shift == 0)
-$shift_english = "Day";
-else
-$shift_english = "Afternoon";
-$facility_ID = $row['facility'];
-$station_ID = $row['station'];
+	//Figure out what shift we are working with.  Either A Day or Night shift.  Will decide what colors to use.
+	$sql_shift = 
+	"SELECT distinct shift
+	FROM `".$db."`.`schedule_saved`
+	WHERE `ID_schedule` = ".$new_schedule_value. "";
+	$result_shift = $link->query($sql_shift);
+	$object_shift = $result_shift->fetch_assoc();
+	$shift = $object_shift['shift'];//Returns 0 or 1.
+	
+	//Setup Color Based
+	$color = "";
+	//if shift is day set to yellow else set to blue.
+	if ($shift == 0)
+	{
+		$color = "FFFAF442";//Yellow
+	}
+	else 
+	{
+		$color = "FF3F7FBF";//Blue
+	}
+	
+	//figure out how many schedules will be displayed. Determined by the amount of different stations.
+	$sql_stations = 
+	"SELECT count(distinct station) as stations
+	FROM `".$db."`.`schedule_saved`
+	WHERE `ID_schedule` = ".$new_schedule_value. "
+	AND `shift` = ".$shift;
+	$result_stations = $link->query($sql_stations);
+	$object_stations = $result_stations->fetch_assoc();
+	$stations = $object_stations['stations'];//Stations is how many different schedules to display.
+	
+	
+}//end (shift = 1)
 
-//Check here if there is employees with id = 0.  If so then we will set the senority, first_name, last_name manually.  These are positions that are unfilled upon schedule generation.
-//Retrieve extra information  (employee information/ position information)
-$employee_senority = "";
-$employee_first_name = "";
-$employee_last_name = "";
-if ($employee_ID == 0)
+
+//Two shifts to display.  Both Day and Night
+elseif  ($shift = 2)
 {
-	$employee_senority = 0;
-	$employee_first_name = "UNFILLED POSITION";
-	$employee_last_name = "UNFILLED POSITION";
+	
 }
 else
 {
-$sql_employee_information = " 
-SELECT senority, first_name, last_name
-FROM `".$db."`.`employee`
-WHERE ID = ".$employee_ID;
-$result_employee_information = $link->query($sql_employee_information);
-$object_employee_information = $result_employee_information->fetch_assoc();
-$employee_senority = $object_employee_information['senority'];
-$employee_first_name = $object_employee_information['first_name'];
-$employee_last_name = $object_employee_information['last_name'];
+	//Dont display anthing. Error Happened.  Should never get here.
 }
-//Retrieve position name 
-$sql_position_information = "
-SELECT name
-FROM `".$db."`.`schedule_position`
-WHERE ID = ".$schedule_position_ID;
-//echo $sql_position_information;
-$result_position_information = $link->query($sql_position_information);
-$object_position_information = $result_position_information->fetch_assoc();
-$schedule_position_name = $object_position_information['name'];
 
 
 
-//Write the user into the spreadsheet.
-$objPHPExcel->setActiveSheetIndex(0)
-			->setCellValue('A'.$cell_value, $schedule_position_name)
-            ->setCellValue('B'.$cell_value, $employee_first_name)
-            ->setCellValue('C'.$cell_value, $employee_last_name)
-            ->setCellValue('D'.$cell_value, $shift_english)
-            ->setCellValue('E'.$cell_value, findStationName($station_ID))
-            ->setCellValue('F'.$cell_value, findFacilityName($facility_ID));
-
-echo "cell value = " . $cell_value;
-echo "shift value = " . $shift;
-$cell_value = $cell_value + 1;
-}//End While
 
 
 
