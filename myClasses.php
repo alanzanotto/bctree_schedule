@@ -760,26 +760,24 @@ $objPHPExcel = new PHPExcel();
 
 // Set document properties
 //echo date('H:i:s') , " Set document properties" , EOL;
-$objPHPExcel->getProperties()->setCreator("Alan Zanotto")
-							 ->setLastModifiedBy("Alan Zanotto")
+$objPHPExcel->getProperties()->setCreator("AZ")
+							 ->setLastModifiedBy("AZ")
 							 ->setTitle("Schedule")
 							 ->setSubject("Generated Schedule")
-							 ->setDescription("Test document for PHPExcel, generated using PHP classes.")
+							 ->setDescription("")
 							 ->setKeywords("office PHPExcel php")
 							 ->setCategory("Schedule");
 
 // Add some data
 //Setup the Three Pages.
-$objPHPExcel->getActiveSheet()->setTitle('Production');
-$objPHPExcel->getActiveSheet()->setBreak( 'J60' , PHPExcel_Worksheet::BREAK_COLUMN );
-$objPHPExcel->getActiveSheet()->setBreak( 'R60' , PHPExcel_Worksheet::BREAK_COLUMN );
-$objPHPExcel->getActiveSheet()->setBreak( 'AA60' , PHPExcel_Worksheet::BREAK_COLUMN );
-$objPHPExcel->getActiveSheet()->setBreak( 'AJ60' , PHPExcel_Worksheet::BREAK_COLUMN );
-$objPHPExcel->getActiveSheet()->setBreak( 'AR60' , PHPExcel_Worksheet::BREAK_COLUMN );
-$objPHPExcel->getActiveSheet()->setBreak( 'BA60' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setTitle('Card Display');
+$objPHPExcel->getActiveSheet()->setBreak( 'J47' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setBreak( 'S47' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setBreak( 'AB47' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setBreak( 'AK47' , PHPExcel_Worksheet::BREAK_COLUMN );
+$objPHPExcel->getActiveSheet()->setBreak( 'AT47' , PHPExcel_Worksheet::BREAK_COLUMN );
 
-$objPHPExcel->createSheet(1)->setTitle('Sorting');
-$objPHPExcel->createSheet(2)->setTitle('Operations');
+$objPHPExcel->createSheet(1)->setTitle('List Display');
 
 
 //Setup Day Shift Production Header.
@@ -833,32 +831,32 @@ $objPHPExcel->setActiveSheetIndex(0)->getStyle('A5')->getAlignment()->applyFromA
 
 //Setup Day Shift Sorting Header.
 $objPHPExcel->setActiveSheetIndex(0);
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('J2:Q3');
-$objPHPExcel->getActiveSheet()->getStyle('J2:Q3')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('J2:R3');
+$objPHPExcel->getActiveSheet()->getStyle('J2:R3')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
     
-$objPHPExcel->getActiveSheet()->getStyle('J2:Q3')
+$objPHPExcel->getActiveSheet()->getStyle('J2:R3')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('J2:Q3')
+$objPHPExcel->getActiveSheet()->getStyle('J2:R3')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('J2:Q3')
+$objPHPExcel->getActiveSheet()->getStyle('J2:R3')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('J2:Q3')
+$objPHPExcel->getActiveSheet()->getStyle('J2:R3')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
 
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('J5:Q5');
-$objPHPExcel->getActiveSheet()->getStyle('J5:Q5')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('J5:R5');
+$objPHPExcel->getActiveSheet()->getStyle('J5:R5')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
     
-$objPHPExcel->getActiveSheet()->getStyle('J5:Q5')
+$objPHPExcel->getActiveSheet()->getStyle('J5:R5')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('J5:Q5')
+$objPHPExcel->getActiveSheet()->getStyle('J5:R5')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('J5:Q5')
+$objPHPExcel->getActiveSheet()->getStyle('J5:R5')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('J5:Q5')
+$objPHPExcel->getActiveSheet()->getStyle('J5:R5')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
     
 $objPHPExcel->setActiveSheetIndex(0)
@@ -881,47 +879,47 @@ $objPHPExcel->setActiveSheetIndex(0)->getStyle('J5')->getAlignment()->applyFromA
 
 //Setup Day Shift Operations Header.
 $objPHPExcel->setActiveSheetIndex(0);
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('R2:Z3');
-$objPHPExcel->getActiveSheet()->getStyle('R2:Z3')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('S2:AA3');
+$objPHPExcel->getActiveSheet()->getStyle('S2:AA3')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
     
-$objPHPExcel->getActiveSheet()->getStyle('R2:Z3')
+$objPHPExcel->getActiveSheet()->getStyle('S2:AA3')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('R2:Z3')
+$objPHPExcel->getActiveSheet()->getStyle('S2:AA3')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('R2:Z3')
+$objPHPExcel->getActiveSheet()->getStyle('S2:AA3')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('R2:Z3')
+$objPHPExcel->getActiveSheet()->getStyle('S2:AA3')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
 
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('R5:Z5');
-$objPHPExcel->getActiveSheet()->getStyle('R5:Z5')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('S5:AA5');
+$objPHPExcel->getActiveSheet()->getStyle('S5:AA5')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
     
-$objPHPExcel->getActiveSheet()->getStyle('R5:Z5')
+$objPHPExcel->getActiveSheet()->getStyle('S5:AA5')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('R5:Z5')
+$objPHPExcel->getActiveSheet()->getStyle('S5:AA5')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('R5:Z5')
+$objPHPExcel->getActiveSheet()->getStyle('S5:AA5')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('R5:Z5')
+$objPHPExcel->getActiveSheet()->getStyle('S5:AA5')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
     
 $objPHPExcel->setActiveSheetIndex(0)
-      		->setCellValue('R2', 'Tuesday, July 21, 2015')
-      		->getStyle('R2')->getFont()->setBold(true)->setSize(16);
+      		->setCellValue('S2', 'Tuesday, July 21, 2015')
+      		->getStyle('S2')->getFont()->setBold(true)->setSize(16);
 
-$objPHPExcel->setActiveSheetIndex(0)->getStyle('R2')->getAlignment()->applyFromArray(
+$objPHPExcel->setActiveSheetIndex(0)->getStyle('S2')->getAlignment()->applyFromArray(
     array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
     	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 );
 
 $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('R5', 'Vaughan Operations 7:00AM - 3:30PM')
-            ->getStyle('R5')->getFont()->setBold(true)->setSize(11);
-$objPHPExcel->setActiveSheetIndex(0)->getStyle('R5')->getAlignment()->applyFromArray(
+            ->setCellValue('S5', 'Vaughan Operations 7:00AM - 3:30PM')
+            ->getStyle('S5')->getFont()->setBold(true)->setSize(11);
+$objPHPExcel->setActiveSheetIndex(0)->getStyle('S5')->getAlignment()->applyFromArray(
     array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
     	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 );
@@ -929,47 +927,47 @@ $objPHPExcel->setActiveSheetIndex(0)->getStyle('R5')->getAlignment()->applyFromA
 
 //Setup Night Shift Production Header.
 $objPHPExcel->setActiveSheetIndex(0);
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AA2:AI3');
-$objPHPExcel->getActiveSheet()->getStyle('AA2:AI3')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AB2:AJ3');
+$objPHPExcel->getActiveSheet()->getStyle('AB2:AJ3')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB('FF3F7FBF');//Blue Color [FF][HEXCODE]
     
-$objPHPExcel->getActiveSheet()->getStyle('AA2:AI3')
+$objPHPExcel->getActiveSheet()->getStyle('AB2:AJ3')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AA2:AI3')
+$objPHPExcel->getActiveSheet()->getStyle('AB2:AJ3')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AA2:AI3')
+$objPHPExcel->getActiveSheet()->getStyle('AB2:AJ3')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AA2:AI3')
+$objPHPExcel->getActiveSheet()->getStyle('AB2:AJ3')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
 
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AA5:AI5');
-$objPHPExcel->getActiveSheet()->getStyle('AA5:AI5')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AB5:AJ5');
+$objPHPExcel->getActiveSheet()->getStyle('AB5:AJ5')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB('FF3F7FBF');//Blue Color [FF][HEXCODE]
     
-$objPHPExcel->getActiveSheet()->getStyle('AA5:AI5')
+$objPHPExcel->getActiveSheet()->getStyle('AB5:AJ5')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AA5:AI5')
+$objPHPExcel->getActiveSheet()->getStyle('AB5:AJ5')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AA5:AI5')
+$objPHPExcel->getActiveSheet()->getStyle('AB5:AJ5')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AA5:AI5')
+$objPHPExcel->getActiveSheet()->getStyle('AB5:AJ5')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
     
 $objPHPExcel->setActiveSheetIndex(0)
-      		->setCellValue('AA2', 'Tuesday, July 21, 2015')
-      		->getStyle('AA2')->getFont()->setBold(true)->setSize(16);
+      		->setCellValue('AB2', 'Tuesday, July 21, 2015')
+      		->getStyle('AB2')->getFont()->setBold(true)->setSize(16);
 
-$objPHPExcel->setActiveSheetIndex(0)->getStyle('AA2')->getAlignment()->applyFromArray(
+$objPHPExcel->setActiveSheetIndex(0)->getStyle('AB2')->getAlignment()->applyFromArray(
     array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
     	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 );
 
 $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('AA5', 'Vaughan Operations 4:00PM - 12:30AM')
-            ->getStyle('AA5')->getFont()->setBold(true)->setSize(11);
-$objPHPExcel->setActiveSheetIndex(0)->getStyle('AA5')->getAlignment()->applyFromArray(
+            ->setCellValue('AB5', 'Vaughan Operations 4:00PM - 12:30AM')
+            ->getStyle('AB5')->getFont()->setBold(true)->setSize(11);
+$objPHPExcel->setActiveSheetIndex(0)->getStyle('AB5')->getAlignment()->applyFromArray(
     array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
     	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 );
@@ -977,47 +975,47 @@ $objPHPExcel->setActiveSheetIndex(0)->getStyle('AA5')->getAlignment()->applyFrom
 
 //Setup Night Shift Sorting Header.
 $objPHPExcel->setActiveSheetIndex(0);
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AJ2:AQ3');
-$objPHPExcel->getActiveSheet()->getStyle('AJ2:AQ3')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AK2:AS3');
+$objPHPExcel->getActiveSheet()->getStyle('AK2:AS3')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB('FF3F7FBF');//Blue Color [FF][HEXCODE]
     
-$objPHPExcel->getActiveSheet()->getStyle('AJ2:AQ3')
+$objPHPExcel->getActiveSheet()->getStyle('AK2:AS3')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AJ2:AQ3')
+$objPHPExcel->getActiveSheet()->getStyle('AK2:AS3')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AJ2:AQ3')
+$objPHPExcel->getActiveSheet()->getStyle('AK2:AS3')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AJ2:AQ3')
+$objPHPExcel->getActiveSheet()->getStyle('AK2:AS3')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
 
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AJ5:AQ5');
-$objPHPExcel->getActiveSheet()->getStyle('AJ5:AQ5')->getFill()
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AK5:AS5');
+$objPHPExcel->getActiveSheet()->getStyle('AK5:AS5')->getFill()
     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
     ->getStartColor()->setARGB('FF3F7FBF');//Blue Color [FF][HEXCODE]
     
-$objPHPExcel->getActiveSheet()->getStyle('AJ5:AQ5')
+$objPHPExcel->getActiveSheet()->getStyle('AK5:AS5')
     ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AJ5:AQ5')
+$objPHPExcel->getActiveSheet()->getStyle('AK5:AS5')
     ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AJ5:AQ5')
+$objPHPExcel->getActiveSheet()->getStyle('AK5:AS5')
     ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-$objPHPExcel->getActiveSheet()->getStyle('AJ5:AQ5')
+$objPHPExcel->getActiveSheet()->getStyle('AK5:AS5')
     ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
     
 $objPHPExcel->setActiveSheetIndex(0)
-      		->setCellValue('AJ2', 'Tuesday, July 21, 2015')
-      		->getStyle('AJ2')->getFont()->setBold(true)->setSize(16);
+      		->setCellValue('AK2', 'Tuesday, July 21, 2015')
+      		->getStyle('AK2')->getFont()->setBold(true)->setSize(16);
 
-$objPHPExcel->setActiveSheetIndex(0)->getStyle('AJ2')->getAlignment()->applyFromArray(
+$objPHPExcel->setActiveSheetIndex(0)->getStyle('AK2')->getAlignment()->applyFromArray(
     array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
     	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 );
 
 $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('AJ5', 'Vaughan Operations 4:00PM - 12:30AM')
-            ->getStyle('AJ5')->getFont()->setBold(true)->setSize(11);
-$objPHPExcel->setActiveSheetIndex(0)->getStyle('AJ5')->getAlignment()->applyFromArray(
+            ->setCellValue('AK5', 'Vaughan Operations 4:00PM - 12:30AM')
+            ->getStyle('AK5')->getFont()->setBold(true)->setSize(11);
+$objPHPExcel->setActiveSheetIndex(0)->getStyle('AK5')->getAlignment()->applyFromArray(
     array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
     	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 );
