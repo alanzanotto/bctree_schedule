@@ -862,7 +862,7 @@ if ($shifts == 1)
 	
 	//Cell Format Map.  Limit is 10 schedules.
 	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
-	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB2:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
 	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
 	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
 	
@@ -926,6 +926,8 @@ if ($shifts == 1)
 		
 		//Now Echo out a list of the employees on this segment of the schedule.
 		
+		
+		
 	$tmp++;//increment coutner for the array headers.
 	}
 }//end (shift = 1)
@@ -935,10 +937,236 @@ if ($shifts == 1)
 elseif  ($shift = 2)
 {
 	
+	//Start with Day Shift.
+	$shift = 0;
+	$tmp = 0;//this will keep track of array cell placement.
+	//Setup Color Based
+	$color = "";
+	$start_time = "";
+	//if shift is day set to yellow else set to blue.
+	if ($shift == 0)
+	{
+		$color = "FFFAF442";//Yellow
+		//Set the start time.  Static for now, the future this should be setting in database.
+		$start_time = "7:00AM - 3:30PM";
+	}
+	else 
+	{
+		$color = "FF3F7FBF";//Blue
+		//Set the start time.  Static for now, the future this should be setting in database.
+		$start_time = "4:00PM - 12:30AM";
+	}
+	
+	//figure out how many schedules will be displayed. Determined by the amount of different stations.
+	$sql_stations = 
+	"SELECT count(distinct station) as stations
+	FROM `".$db."`.`schedule_saved`
+	WHERE `ID_schedule` = ".$new_schedule_value. "
+	AND `shift` = ".$shift;
+	$result_stations = $link->query($sql_stations);
+	$object_stations = $result_stations->fetch_assoc();
+	$stations = $object_stations['stations'];//Stations is how many different schedules to display.
+	
+	
+	//Retrive a list of all the different stations_info.
+	$sql_station_info = 
+	"SELECT distinct st.ID, st.name
+	FROM `".$db."`.`schedule_saved` ss, `".$db."`.`schedule_station` st
+	WHERE ss.station = st.ID
+	AND  ss.ID_schedule = ".$new_schedule_value."
+	AND ss.shift = ".$shift;
+	$result_station_info = $link->query($sql_station_info);
+	
+	
+	
+	
+	//Cell Format Map.  Limit is 10 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	
+	
+	//Loop through the schedules and format them into the excel object.  Displaying the headers.
+	//if stations is more than 10, there will be problem...
+	while ($row = $result_station_info->fetch_assoc())
+	{
+		$station_ID = $row['ID'];
+		$station_name = $row['name'];
+		
+		//Setup A new Header.
+		$objPHPExcel->setActiveSheetIndex(0);
+		$objPHPExcel->setActiveSheetIndex(0)->mergeCells($header_1[$tmp]);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])->getFill()
+		    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		    ->getStartColor()->setARGB($color);
+		    
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		
+		$objPHPExcel->setActiveSheetIndex(0)->mergeCells($header_2[$tmp]);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])->getFill()
+		    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		    ->getStartColor()->setARGB($color);
+		    
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		    
+		$objPHPExcel->setActiveSheetIndex(0)
+		      		->setCellValue($header_3[$tmp], $schedule_formated_date)
+		      		->getStyle($header_3[$tmp])->getFont()->setBold(true)->setSize(16);
+		
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle($header_3[$tmp])->getAlignment()->applyFromArray(
+		    array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
+		);
+		
+		$objPHPExcel->setActiveSheetIndex(0)
+		            ->setCellValue($header_4[$tmp], $station_name." ". $start_time)
+		            ->getStyle($header_4[$tmp])->getFont()->setBold(true)->setSize(11);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle($header_4[$tmp])->getAlignment()->applyFromArray(
+		    array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
+		);
+		
+		
+		//Now Echo out a list of the employees on this segment of the schedule.
+		
+		
+		
+	$tmp++;//increment coutner for the array headers.
+	}
+	
+	
+	//Conitnue on with Night Shift.
+	$shift = 1;
+	//Setup Color Based
+	$color = "";
+	$start_time = "";
+	//if shift is day set to yellow else set to blue.
+	if ($shift == 0)
+	{
+		$color = "FFFAF442";//Yellow
+		//Set the start time.  Static for now, the future this should be setting in database.
+		$start_time = "7:00AM - 3:30PM";
+	}
+	else 
+	{
+		$color = "FF3F7FBF";//Blue
+		//Set the start time.  Static for now, the future this should be setting in database.
+		$start_time = "4:00PM - 12:30AM";
+	}
+	
+	//figure out how many schedules will be displayed. Determined by the amount of different stations.
+	$sql_stations = 
+	"SELECT count(distinct station) as stations
+	FROM `".$db."`.`schedule_saved`
+	WHERE `ID_schedule` = ".$new_schedule_value. "
+	AND `shift` = ".$shift;
+	$result_stations = $link->query($sql_stations);
+	$object_stations = $result_stations->fetch_assoc();
+	$stations = $object_stations['stations'];//Stations is how many different schedules to display.
+	
+	
+	//Retrive a list of all the different stations_info.
+	$sql_station_info = 
+	"SELECT distinct st.ID, st.name
+	FROM `".$db."`.`schedule_saved` ss, `".$db."`.`schedule_station` st
+	WHERE ss.station = st.ID
+	AND  ss.ID_schedule = ".$new_schedule_value."
+	AND ss.shift = ".$shift;
+	$result_station_info = $link->query($sql_station_info);
+	
+	
+	
+	
+	//Cell Format Map.  Limit is 10 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	
+	
+	//Loop through the schedules and format them into the excel object.  Displaying the headers.
+	//if stations is more than 10, there will be problem...
+	while ($row = $result_station_info->fetch_assoc())
+	{
+		$station_ID = $row['ID'];
+		$station_name = $row['name'];
+		
+		//Setup A new Header.
+		$objPHPExcel->setActiveSheetIndex(0);
+		$objPHPExcel->setActiveSheetIndex(0)->mergeCells($header_1[$tmp]);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])->getFill()
+		    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		    ->getStartColor()->setARGB($color);
+		    
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		
+		$objPHPExcel->setActiveSheetIndex(0)->mergeCells($header_2[$tmp]);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])->getFill()
+		    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		    ->getStartColor()->setARGB($color);
+		    
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		    
+		$objPHPExcel->setActiveSheetIndex(0)
+		      		->setCellValue($header_3[$tmp], $schedule_formated_date)
+		      		->getStyle($header_3[$tmp])->getFont()->setBold(true)->setSize(16);
+		
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle($header_3[$tmp])->getAlignment()->applyFromArray(
+		    array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
+		);
+		
+		$objPHPExcel->setActiveSheetIndex(0)
+		            ->setCellValue($header_4[$tmp], $station_name." ". $start_time)
+		            ->getStyle($header_4[$tmp])->getFont()->setBold(true)->setSize(11);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle($header_4[$tmp])->getAlignment()->applyFromArray(
+		    array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
+		);
+		
+		
+		//Now Echo out a list of the employees on this segment of the schedule.
+		
+		
+		
+	$tmp++;//increment coutner for the array headers.
+	}
+	
 }
 else
 {
 	//Dont display anthing. Error Happened.  Should never get here.
+	echo "Stations was not equal to 1 or 2.  So either NULL, '',  or 3 or higher.";
+	echo "This error should not be here.";
 }
 
 
