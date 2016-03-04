@@ -1074,6 +1074,66 @@ if ($shifts = 1)
 	$stations = $object_stations['stations'];//Stations is how many different schedules to display.
 	
 	
+	
+	
+	//Cell Format Map.  Limit is 10 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB2:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	
+	
+	//Loop through the schedules and format them into the excel object.  Displaying the headers.
+	//if stations is more than 10, there will be problem...
+	for ($tmp = 0; $tmp < $stations; $tmp++)
+	{
+		//Setup A new Header.
+		$objPHPExcel->setActiveSheetIndex(1);
+		$objPHPExcel->setActiveSheetIndex(1)->mergeCells($header_1[$tmp]);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])->getFill()
+		    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		    ->getStartColor()->setARGB($color);
+		    
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_1[$tmp])
+		    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		
+		$objPHPExcel->setActiveSheetIndex(1)->mergeCells($header_2[$tmp]);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])->getFill()
+		    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		    ->getStartColor()->setARGB($color);
+		    
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		$objPHPExcel->getActiveSheet()->getStyle($header_2[$tmp])
+		    ->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+		    
+		$objPHPExcel->setActiveSheetIndex(1)
+		      		->setCellValue($header_3[$tmp], 'Tuesday, July 21, 2015')
+		      		->getStyle($header_3[$tmp])->getFont()->setBold(true)->setSize(16);
+		
+		$objPHPExcel->setActiveSheetIndex(1)->getStyle($header_3[$tmp])->getAlignment()->applyFromArray(
+		    array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
+		);
+		
+		$objPHPExcel->setActiveSheetIndex(1)
+		            ->setCellValue($header_4[$tmp], 'Cherry Production 7:00AM - 3:30PM')
+		            ->getStyle($header_4[$tmp])->getFont()->setBold(true)->setSize(11);
+		$objPHPExcel->setActiveSheetIndex(1)->getStyle($header_4[$tmp])->getAlignment()->applyFromArray(
+		    array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
+		);
+	}
 }//end (shift = 1)
 
 
