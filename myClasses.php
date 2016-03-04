@@ -923,9 +923,47 @@ if ($shifts == 1)
 		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 		);
 		
+		//Put the output of the emps below in a loop that goes through a list of the facilities....save for later.
 		
 		//Now Echo out a list of the employees on this segment of the schedule.
+		$sql_positions = 
+		"
+		SELECT distinct ID_schedule_position
+		FROM `".$db."`.`schedule_saved` 
+		WHERE ID_schedule = ".$new_schedule_value."
+		AND shift = ".$shift."
+		AND station = ".$station_ID."
+		order by ID_schedule_position ASC
+		";
+		$result_positions = $link->query($sql_positions);
 		
+		//loop through positions and retrieve emps and add them to the  file. While making sure to stay on the page. 
+		while($row = $result_positions->fetch_assoc())
+		{
+			
+			//Get position ID
+			$position_ID = $row['ID_schedule_position'];
+			//Retrive the name of the position
+			//....
+			
+			$sql_emps = 
+			"
+			SELECT ID_employee 
+			FROM `".$db."`.`schedule_saved` 
+			WHERE ID_schedule = ".$new_schedule_value."
+			AND shift = ".$shift."
+			AND station = ".$station_ID."
+			AND ID_schedule_position = ".$position_ID."
+			order by ID_employee
+			";
+			$result_emps = $link->query($sql_emps);
+			
+			
+			//Check which cell is being worked on.  Dont overshoot.
+			//print position name.
+			//loop through emps, retrieve first and last name, and then print
+			
+		}
 		
 		
 	$tmp++;//increment coutner for the array headers.
