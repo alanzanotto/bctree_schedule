@@ -870,7 +870,9 @@ if ($shifts == 1)
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
 	//if stations is more than 10, there will be problem...
 	//$tmp = 0; $tmp < $stations; $tmp++
+	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
 	$tmp = 0;
+	$page_number = 0; 
 	while ($row = $result_station_info->fetch_assoc())
 	{
 		$station_ID = $row['ID'];
@@ -923,7 +925,6 @@ if ($shifts == 1)
 		    	  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, )
 		);
 		
-		//Put the output of the emps below in a loop that goes through a list of the facilities....save for later.
 		
 		//Now Echo out a list of the employees on this segment of the schedule.
 		$sql_positions = 
@@ -960,9 +961,29 @@ if ($shifts == 1)
 			
 			
 			//Check which cell is being worked on.  Dont overshoot.
+			//A Regular page goes 9 Columns long and from Cell 7 to 46
 			//print position name.
 			//loop through emps, retrieve first and last name, and then print
 			
+		    //Page 1
+		    //0 to 8 | +2
+		    
+		    //Page 2
+		    //0 to 8 |
+		    for ($x = 0; $x < 8; $x = $x + 2)
+		    {
+		    	
+		    	for ($y = 7; $y < 46; $y = $y + 3)
+		    	{
+		    	// Set cell B5 with a string value
+		    	$temp_y = $y + 1;
+    			$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($x, $y, "Operations Computer Technician");
+    			$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($x, $temp_y, "Alan Zanotto");
+		    	}
+		    }
+    		
+    
+
 		}
 		
 		
@@ -974,6 +995,8 @@ if ($shifts == 1)
 //Two shifts to display.  Both Day and Night
 elseif  ($shift = 2)
 {
+	
+	
 	
 	//Start with Day Shift.
 	$shift = 0;
