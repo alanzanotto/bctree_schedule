@@ -941,25 +941,110 @@ if ($shifts == 1)
 		
 		//Put the position into an array to call when ready.
 		$positions_array;
+		$position_ID_array;
 		$temp_position_array = 0;
 		while ($row = $result_positions->fetch_assoc())
 		{
 			$sql_position_name =
 			"
-			SELECT name
+			SELECT ID, name
 			FROM `".$db."`.`schedule_position`
 			WHERE ID = ".$row['ID_schedule_position'];
 			$result_position_name = $link->query($sql_position_name);
 			$object_position_name = $result_position_name->fetch_assoc();
 			$position_name = $object_position_name['name'];
+			$position_ID = $object_position_name['ID'];
 			
 			$positions_array[$temp_position_array] = $position_name;
+			$position_ID_array[$temp_position_array] = $position_ID;
 			$temp_position_array++;
 		}
-		
+		print_r ($position_ID_array);
+		echo "</br>";
+		print_r ($positions_array);
+		echo "</br></br></br>";
 		//while x, y+position, emp name
-		$excel_column = 0;
-		$excel_row = 0;
+		$excel_column = $page_number;
+		$excel_row = 7;
+		$array_index = 0;
+		//Start with columns and then work down before adding to the next column.
+		while ($excel_column < $excel_column + 8 )
+		{
+			while($excel_row < 46)
+			{
+				//Print Position.
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $positions_array[$array_index]);
+				$excel_row++;//Increment to move onto next row
+				
+				//SQL EMPS in that position.
+				$sql_emps = 
+				"
+				SELECT ID_employee 
+				FROM `".$db."`.`schedule_saved` 
+				WHERE ID_schedule = ".$new_schedule_value."
+				AND shift = ".$shift."
+				AND station = ".$station_ID."
+				AND ID_schedule_position = ".$position_ID_array[$array_index]."
+				order by ID_employee
+				";
+				
+				echo $sql_emps;
+				$result_emps = $link->query($sql_emps);
+				//WHILE EMP PRINT NAME.
+				while ($row = $result_emps->fetch_assoc())
+				{
+					$employee_ID = $row['ID_employee'];
+					//Check here if there is employees with id = 0.  If so then we will set the senority, first_name, last_name manually.  These are positions that are unfilled upon schedule generation.
+					//Retrieve extra information  (employee information/ position information)
+					$employee_senority = "";
+					$employee_first_name = "";
+					$employee_last_name = "";
+					if ($employee_ID == 0)
+					{
+						$employee_senority = 0;
+						$employee_first_name = "UNFILLED POSITION";
+						$employee_last_name = "UNFILLED POSITION";
+						
+						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_last_name .", ".$employee_first_name);
+			
+					}
+					else
+					{
+					$sql_employee_information = " 
+					SELECT senority, first_name, last_name
+					FROM `".$db."`.`employee`
+					WHERE ID = ".$employee_ID;
+					$result_employee_information = $link->query($sql_employee_information);
+					$object_employee_information = $result_employee_information->fetch_assoc();
+					$employee_senority = $object_employee_information['senority'];
+					$employee_first_name = $object_employee_information['first_name'];
+					$employee_last_name = $object_employee_information['last_name'];
+					
+					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_last_name .", ".$employee_first_name);
+					
+					}
+					
+					$excel_row++;//Increment to move onto next row
+				}
+				$excel_row++;//Leave a space and move onto the next position.
+				
+				
+				
+				//Increment Array IF it can be incremented, otherwise break out of the loops.
+				if (array_key_exists($array_index, $positions_array))
+				{
+					//Increment the position array index.
+					$array_index++;
+				}
+				else
+				{
+					break 2;//Finished printing, break out of the printing cycle.
+				}
+				
+			}
+			$excel_column = $excel_column + 2;// Increment X
+			$excel_row = 7;//Reset Y
+		}
 		
 		
 		
