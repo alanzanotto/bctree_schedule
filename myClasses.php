@@ -972,6 +972,19 @@ if ($shifts == 1)
 		{
 			while($excel_row < 46)
 			{
+				
+				//Increment Array IF it can be incremented, otherwise break out of the loops.
+				if (array_key_exists($array_index, $positions_array))
+				{
+					//Increment the position array index.
+					echo "</br> array increment is now: ". $array_index;
+					
+				}
+				else
+				{
+					break 2;//Finished printing, break out of the printing cycle.
+				}
+				
 				//Print Position.
 				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $positions_array[$array_index]);
 				$excel_row++;//Increment to move onto next row
@@ -1005,7 +1018,7 @@ if ($shifts == 1)
 						$employee_first_name = "UNFILLED POSITION";
 						$employee_last_name = "UNFILLED POSITION";
 						
-						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_last_name .", ".$employee_first_name);
+						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
 			
 					}
 					else
@@ -1020,7 +1033,7 @@ if ($shifts == 1)
 					$employee_first_name = $object_employee_information['first_name'];
 					$employee_last_name = $object_employee_information['last_name'];
 					
-					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_last_name .", ".$employee_first_name);
+					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
 					
 					}
 					
@@ -1029,17 +1042,8 @@ if ($shifts == 1)
 				$excel_row++;//Leave a space and move onto the next position.
 				
 				
-				
-				//Increment Array IF it can be incremented, otherwise break out of the loops.
-				if (array_key_exists($array_index, $positions_array))
-				{
-					//Increment the position array index.
-					$array_index++;
-				}
-				else
-				{
-					break 2;//Finished printing, break out of the printing cycle.
-				}
+				$array_index++;
+			
 				
 			}
 			$excel_column = $excel_column + 2;// Increment X
