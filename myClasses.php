@@ -655,15 +655,16 @@ if ($shifts == 1)
 	
 	
 	
-	//Cell Format Map.  Limit is 10 schedules.
-	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
-	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
-	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
-	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	
+	//Cell Format Map.  Limit is 25 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3", "CM2:CU3", "CV2:DD3", "DE2:DM3", "DN2:DV3", "DW2:EE3", "EF2:EN3", "EO2:EW3", "EX2:FF3", "FG2:FO3", "FP2:FX3", "FY2:GG3", "GH2:GP3", "GQ2:GY3", "GZ2:HH3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5", "CM5:CU5", "CV5:DD5", "DE5:DM5", "DN5:DV5", "DW5:EE5", "EF5:EN5", "EO5:EW5", "EX5:FF5", "FG5:FO5", "FP5:FX5", "FY5:GG5", "GH5:GP5", "GQ5:GY5", "GZ5:HH5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2", "CM2", "CV2", "DE2", "DN2", "DW2", "EF2", "EO2", "EX2", "FG2", "FP2", "FY2", "GH2", "GQ2", "GZ2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5", "CM5", "CV5", "DE5", "DN5", "DW5", "EF5", "EO5", "EX5", "FG5", "FP5", "FY5", "GH5", "GQ5", "GZ5");
 	
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
-	//if stations is more than 10, there will be problem...
+	//if stations is more than 25, there will be problem...
 	//$tmp = 0; $tmp < $stations; $tmp++
 	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
 	$tmp = 0;
@@ -908,15 +909,15 @@ elseif  ($shift = 2)
 	
 	
 	
-	//Cell Format Map.  Limit is 10 schedules.
-	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
-	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
-	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
-	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	//Cell Format Map.  Limit is 25 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3", "CM2:CU3", "CV2:DD3", "DE2:DM3", "DN2:DV3", "DW2:EE3", "EF2:EN3", "EO2:EW3", "EX2:FF3", "FG2:FO3", "FP2:FX3", "FY2:GG3", "GH2:GP3", "GQ2:GY3", "GZ2:HH3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5", "CM5:CU5", "CV5:DD5", "DE5:DM5", "DN5:DV5", "DW5:EE5", "EF5:EN5", "EO5:EW5", "EX5:FF5", "FG5:FO5", "FP5:FX5", "FY5:GG5", "GH5:GP5", "GQ5:GY5", "GZ5:HH5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2", "CM2", "CV2", "DE2", "DN2", "DW2", "EF2", "EO2", "EX2", "FG2", "FP2", "FY2", "GH2", "GQ2", "GZ2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5", "CM5", "CV5", "DE5", "DN5", "DW5", "EF5", "EO5", "EX5", "FG5", "FP5", "FY5", "GH5", "GQ5", "GZ5");
 	
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
-	//if stations is more than 10, there will be problem...
+	//if stations is more than 25, there will be problem...
 	//$tmp = 0; $tmp < $stations; $tmp++
 	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
 	$tmp = 0;
@@ -1157,15 +1158,15 @@ elseif  ($shift = 2)
 	
 	
 	
-	//Cell Format Map.  Limit is 10 schedules.
-	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
-	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
-	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
-	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	//Cell Format Map.  Limit is 25 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3", "CM2:CU3", "CV2:DD3", "DE2:DM3", "DN2:DV3", "DW2:EE3", "EF2:EN3", "EO2:EW3", "EX2:FF3", "FG2:FO3", "FP2:FX3", "FY2:GG3", "GH2:GP3", "GQ2:GY3", "GZ2:HH3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5", "CM5:CU5", "CV5:DD5", "DE5:DM5", "DN5:DV5", "DW5:EE5", "EF5:EN5", "EO5:EW5", "EX5:FF5", "FG5:FO5", "FP5:FX5", "FY5:GG5", "GH5:GP5", "GQ5:GY5", "GZ5:HH5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2", "CM2", "CV2", "DE2", "DN2", "DW2", "EF2", "EO2", "EX2", "FG2", "FP2", "FY2", "GH2", "GQ2", "GZ2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5", "CM5", "CV5", "DE5", "DN5", "DW5", "EF5", "EO5", "EX5", "FG5", "FP5", "FY5", "GH5", "GQ5", "GZ5");
 	
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
-	//if stations is more than 10, there will be problem...
+	//if stations is more than 25, there will be problem...
 	//$tmp = 0; $tmp < $stations; $tmp++
 	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
 	
