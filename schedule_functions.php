@@ -1,5 +1,21 @@
 <?php
 
+/*******************************************************************************
+* Copyright 2016 Alan A. Zanotto
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*******************************************************************************/
+
 //Returns 0 or 1. 0 if PP is not available on Dayshift. 1 if it is.
 function calculatePP_DS($link, $db, $emp_posted_position, $template_ID, $schedule_ID)
 {
@@ -258,7 +274,7 @@ include 'db_connection.php';
 $ID_schedule_position = findIDSchedulePosition($job_id);
 
 //insert it to schedule saved.
-$sql_add_toSchedule = "INSERT INTO `".$db."`.`schedule_saved` (`ID_schedule`, `ID_schedule_position`, `ID_employee`, `shift`, `facility`, `station`) VALUES (".$schedule_ID.", ".$ID_schedule_position.", ".$emp_id.", ".$emp_shift.", ".$job_facility. ", ". $job_station.")";
+$sql_add_toSchedule = "INSERT INTO `".$db."`.`schedule_saved` (`ID_schedule`, `ID_schedule_position`, `ID_employee`, `shift`, `facility`, `station`, `weight`) VALUES (".$schedule_ID.", ".$ID_schedule_position.", ".$emp_id.", ".$emp_shift.", ".$job_facility. ", ". $job_station.", ".$job_id.")";
 $link->query($sql_add_toSchedule);
 
 //UPDATE stpl_auto to have this job_id scheduled column set to 1 so it wont be used anymore for other people.
