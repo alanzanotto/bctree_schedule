@@ -938,10 +938,13 @@ if ($shifts == 1)
 		";
 		$result_positions = $link->query($sql_positions);
 		
+		echo $sql_positions;
+		echo "</br></br></br>";
+		
 		
 		//Put the position into an array to call when ready.
-		$positions_array;
-		$position_ID_array;
+		$positions_array = array();
+		$position_ID_array = array();
 		$temp_position_array = 0;
 		while ($row = $result_positions->fetch_assoc())
 		{
@@ -959,10 +962,12 @@ if ($shifts == 1)
 			$position_ID_array[$temp_position_array] = $position_ID;
 			$temp_position_array++;
 		}
+		/*
 		print_r ($position_ID_array);
 		echo "</br>";
 		print_r ($positions_array);
 		echo "</br></br></br>";
+		*/
 		//while x, y+position, emp name
 		$excel_column = $page_number;
 		$excel_row = 7;
@@ -973,20 +978,19 @@ if ($shifts == 1)
 			while($excel_row < 46)
 			{
 				
-				//Increment Array IF it can be incremented, otherwise break out of the loops.
-				if (array_key_exists($array_index, $positions_array))
+				//Check if array index is valid, otherwise break out of the loops.
+				if (!array_key_exists($array_index, $positions_array))
 				{
 					//Increment the position array index.
-					echo "</br> array increment is now: ". $array_index;
-					
-				}
-				else
-				{
+					//echo "</br> array increment is now: ". $array_index;
 					break 2;//Finished printing, break out of the printing cycle.
 				}
 				
 				//Print Position.
 				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $positions_array[$array_index]);
+				$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setBold(true);
+				$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(10);
+				
 				$excel_row++;//Increment to move onto next row
 				
 				//SQL EMPS in that position.
@@ -1001,7 +1005,7 @@ if ($shifts == 1)
 				order by ID_employee
 				";
 				
-				echo $sql_emps;
+				//echo $sql_emps;
 				$result_emps = $link->query($sql_emps);
 				//WHILE EMP PRINT NAME.
 				while ($row = $result_emps->fetch_assoc())
@@ -1015,10 +1019,11 @@ if ($shifts == 1)
 					if ($employee_ID == 0)
 					{
 						$employee_senority = 0;
-						$employee_first_name = "UNFILLED POSITION";
-						$employee_last_name = "UNFILLED POSITION";
+						$employee_first_name = "UNFILLED";
+						$employee_last_name = "POSITION";
 						
 						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
+						$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(9);
 			
 					}
 					else
@@ -1034,6 +1039,7 @@ if ($shifts == 1)
 					$employee_last_name = $object_employee_information['last_name'];
 					
 					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
+					$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(9);
 					
 					}
 					
