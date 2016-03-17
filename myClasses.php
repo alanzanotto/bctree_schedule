@@ -1069,7 +1069,7 @@ elseif  ($shift = 2)
 {
 	
 	
-	
+	//**********************************************************************************************
 	//Start with Day Shift.
 	$shift = 0;
 	$tmp = 0;//this will keep track of array cell placement.
@@ -1122,6 +1122,10 @@ elseif  ($shift = 2)
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
 	//if stations is more than 10, there will be problem...
+	//$tmp = 0; $tmp < $stations; $tmp++
+	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
+	$tmp = 0;
+	$page_number = 0; 
 	while ($row = $result_station_info->fetch_assoc())
 	{
 		$station_ID = $row['ID'];
@@ -1176,13 +1180,146 @@ elseif  ($shift = 2)
 		
 		
 		//Now Echo out a list of the employees on this segment of the schedule.
+		$sql_positions = 
+		"
+		SELECT distinct ID_schedule_position
+		FROM `".$db."`.`schedule_saved` 
+		WHERE ID_schedule = ".$new_schedule_value."
+		AND shift = ".$shift."
+		AND station = ".$station_ID."
+		order by ID_schedule_position ASC
+		";
+		$result_positions = $link->query($sql_positions);
+		
+		echo $sql_positions;
+		echo "</br></br></br>";
+		
+		
+		//Put the position into an array to call when ready.
+		$positions_array = array();
+		$position_ID_array = array();
+		$temp_position_array = 0;
+		while ($row = $result_positions->fetch_assoc())
+		{
+			$sql_position_name =
+			"
+			SELECT ID, name
+			FROM `".$db."`.`schedule_position`
+			WHERE ID = ".$row['ID_schedule_position'];
+			$result_position_name = $link->query($sql_position_name);
+			$object_position_name = $result_position_name->fetch_assoc();
+			$position_name = $object_position_name['name'];
+			$position_ID = $object_position_name['ID'];
+			
+			$positions_array[$temp_position_array] = $position_name;
+			$position_ID_array[$temp_position_array] = $position_ID;
+			$temp_position_array++;
+		}
+		/*
+		print_r ($position_ID_array);
+		echo "</br>";
+		print_r ($positions_array);
+		echo "</br></br></br>";
+		*/
+		//while x, y+position, emp name
+		$excel_column = $page_number;
+		$excel_row = 7;
+		$array_index = 0;
+		//Start with columns and then work down before adding to the next column.
+		while ($excel_column < $excel_column + 8 )
+		{
+			while($excel_row < 46)
+			{
+				
+				//Check if array index is valid, otherwise break out of the loops.
+				if (!array_key_exists($array_index, $positions_array))
+				{
+					//Increment the position array index.
+					//echo "</br> array increment is now: ". $array_index;
+					break 2;//Finished printing, break out of the printing cycle.
+				}
+				
+				//Print Position.
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $positions_array[$array_index]);
+				$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setBold(true);
+				$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(10);
+				
+				$excel_row++;//Increment to move onto next row
+				
+				//SQL EMPS in that position.
+				$sql_emps = 
+				"
+				SELECT ID_employee 
+				FROM `".$db."`.`schedule_saved` 
+				WHERE ID_schedule = ".$new_schedule_value."
+				AND shift = ".$shift."
+				AND station = ".$station_ID."
+				AND ID_schedule_position = ".$position_ID_array[$array_index]."
+				order by ID_employee
+				";
+				
+				//echo $sql_emps;
+				$result_emps = $link->query($sql_emps);
+				//WHILE EMP PRINT NAME.
+				while ($row = $result_emps->fetch_assoc())
+				{
+					$employee_ID = $row['ID_employee'];
+					//Check here if there is employees with id = 0.  If so then we will set the senority, first_name, last_name manually.  These are positions that are unfilled upon schedule generation.
+					//Retrieve extra information  (employee information/ position information)
+					$employee_senority = "";
+					$employee_first_name = "";
+					$employee_last_name = "";
+					if ($employee_ID == 0)
+					{
+						$employee_senority = 0;
+						$employee_first_name = "UNFILLED";
+						$employee_last_name = "POSITION";
+						
+						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
+						$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(9);
+			
+					}
+					else
+					{
+					$sql_employee_information = " 
+					SELECT senority, first_name, last_name
+					FROM `".$db."`.`employee`
+					WHERE ID = ".$employee_ID;
+					$result_employee_information = $link->query($sql_employee_information);
+					$object_employee_information = $result_employee_information->fetch_assoc();
+					$employee_senority = $object_employee_information['senority'];
+					$employee_first_name = $object_employee_information['first_name'];
+					$employee_last_name = $object_employee_information['last_name'];
+					
+					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
+					$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(9);
+					
+					}
+					
+					$excel_row++;//Increment to move onto next row
+				}
+				$excel_row++;//Leave a space and move onto the next position.
+				
+				
+				$array_index++;
+			
+				
+			}
+			$excel_column = $excel_column + 2;// Increment X
+			$excel_row = 7;//Reset Y
+		}
 		
 		
 		
+	$page_number = $page_number + 9;//Incrment the page after displaying all the people on the schedule.	
 	$tmp++;//increment coutner for the array headers.
+
 	}
 	
 	
+	
+	
+	//***********************************************************************
 	//Conitnue on with Night Shift.
 	$shift = 1;
 	//Setup Color Based
@@ -1234,6 +1371,13 @@ elseif  ($shift = 2)
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
 	//if stations is more than 10, there will be problem...
+	//$tmp = 0; $tmp < $stations; $tmp++
+	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
+	
+	# $tmp = 0;
+	# $page_number = 0; 
+	# IF the above variable are rest to zero then the night shift schedules will overwrite the day shift schedules.  With them commented out the schedule Page will continue 
+	# where ever it left off.  
 	while ($row = $result_station_info->fetch_assoc())
 	{
 		$station_ID = $row['ID'];
@@ -1288,9 +1432,138 @@ elseif  ($shift = 2)
 		
 		
 		//Now Echo out a list of the employees on this segment of the schedule.
+		$sql_positions = 
+		"
+		SELECT distinct ID_schedule_position
+		FROM `".$db."`.`schedule_saved` 
+		WHERE ID_schedule = ".$new_schedule_value."
+		AND shift = ".$shift."
+		AND station = ".$station_ID."
+		order by ID_schedule_position ASC
+		";
+		$result_positions = $link->query($sql_positions);
+		
+		echo $sql_positions;
+		echo "</br></br></br>";
+		
+		
+		//Put the position into an array to call when ready.
+		$positions_array = array();
+		$position_ID_array = array();
+		$temp_position_array = 0;
+		while ($row = $result_positions->fetch_assoc())
+		{
+			$sql_position_name =
+			"
+			SELECT ID, name
+			FROM `".$db."`.`schedule_position`
+			WHERE ID = ".$row['ID_schedule_position'];
+			$result_position_name = $link->query($sql_position_name);
+			$object_position_name = $result_position_name->fetch_assoc();
+			$position_name = $object_position_name['name'];
+			$position_ID = $object_position_name['ID'];
+			
+			$positions_array[$temp_position_array] = $position_name;
+			$position_ID_array[$temp_position_array] = $position_ID;
+			$temp_position_array++;
+		}
+		/*
+		print_r ($position_ID_array);
+		echo "</br>";
+		print_r ($positions_array);
+		echo "</br></br></br>";
+		*/
+		//while x, y+position, emp name
+		$excel_column = $page_number;
+		$excel_row = 7;
+		$array_index = 0;
+		//Start with columns and then work down before adding to the next column.
+		while ($excel_column < $excel_column + 8 )
+		{
+			while($excel_row < 46)
+			{
+				
+				//Check if array index is valid, otherwise break out of the loops.
+				if (!array_key_exists($array_index, $positions_array))
+				{
+					//Increment the position array index.
+					//echo "</br> array increment is now: ". $array_index;
+					break 2;//Finished printing, break out of the printing cycle.
+				}
+				
+				//Print Position.
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $positions_array[$array_index]);
+				$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setBold(true);
+				$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(10);
+				
+				$excel_row++;//Increment to move onto next row
+				
+				//SQL EMPS in that position.
+				$sql_emps = 
+				"
+				SELECT ID_employee 
+				FROM `".$db."`.`schedule_saved` 
+				WHERE ID_schedule = ".$new_schedule_value."
+				AND shift = ".$shift."
+				AND station = ".$station_ID."
+				AND ID_schedule_position = ".$position_ID_array[$array_index]."
+				order by ID_employee
+				";
+				
+				//echo $sql_emps;
+				$result_emps = $link->query($sql_emps);
+				//WHILE EMP PRINT NAME.
+				while ($row = $result_emps->fetch_assoc())
+				{
+					$employee_ID = $row['ID_employee'];
+					//Check here if there is employees with id = 0.  If so then we will set the senority, first_name, last_name manually.  These are positions that are unfilled upon schedule generation.
+					//Retrieve extra information  (employee information/ position information)
+					$employee_senority = "";
+					$employee_first_name = "";
+					$employee_last_name = "";
+					if ($employee_ID == 0)
+					{
+						$employee_senority = 0;
+						$employee_first_name = "UNFILLED";
+						$employee_last_name = "POSITION";
+						
+						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
+						$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(9);
+			
+					}
+					else
+					{
+					$sql_employee_information = " 
+					SELECT senority, first_name, last_name
+					FROM `".$db."`.`employee`
+					WHERE ID = ".$employee_ID;
+					$result_employee_information = $link->query($sql_employee_information);
+					$object_employee_information = $result_employee_information->fetch_assoc();
+					$employee_senority = $object_employee_information['senority'];
+					$employee_first_name = $object_employee_information['first_name'];
+					$employee_last_name = $object_employee_information['last_name'];
+					
+					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($excel_column, $excel_row, $employee_first_name ." ". $employee_last_name);
+					$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($excel_column, $excel_row)->getFont()->setSize(9);
+					
+					}
+					
+					$excel_row++;//Increment to move onto next row
+				}
+				$excel_row++;//Leave a space and move onto the next position.
+				
+				
+				$array_index++;
+			
+				
+			}
+			$excel_column = $excel_column + 2;// Increment X
+			$excel_row = 7;//Reset Y
+		}
 		
 		
 		
+	$page_number = $page_number + 9;//Incrment the page after displaying all the people on the schedule.	
 	$tmp++;//increment coutner for the array headers.
 	}
 	
