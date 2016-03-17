@@ -274,7 +274,7 @@ include 'db_connection.php';
 $ID_schedule_position = findIDSchedulePosition($job_id);
 
 //insert it to schedule saved.
-$sql_add_toSchedule = "INSERT INTO `".$db."`.`schedule_saved` (`ID_schedule`, `ID_schedule_position`, `ID_employee`, `shift`, `facility`, `station`) VALUES (".$schedule_ID.", ".$ID_schedule_position.", ".$emp_id.", ".$emp_shift.", ".$job_facility. ", ". $job_station.")";
+$sql_add_toSchedule = "INSERT INTO `".$db."`.`schedule_saved` (`ID_schedule`, `ID_schedule_position`, `ID_employee`, `shift`, `facility`, `station`, `weight`) VALUES (".$schedule_ID.", ".$ID_schedule_position.", ".$emp_id.", ".$emp_shift.", ".$job_facility. ", ". $job_station.", ".$job_id.")";
 $link->query($sql_add_toSchedule);
 
 //UPDATE stpl_auto to have this job_id scheduled column set to 1 so it wont be used anymore for other people.

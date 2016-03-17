@@ -747,7 +747,7 @@ if ($shifts == 1)
 		WHERE ID_schedule = ".$new_schedule_value."
 		AND shift = ".$shift."
 		AND station = ".$station_ID."
-		order by ID_schedule_position ASC
+		order by weight ASC
 		";
 		$result_positions = $link->query($sql_positions);
 		
@@ -1000,7 +1000,7 @@ elseif  ($shift = 2)
 		WHERE ID_schedule = ".$new_schedule_value."
 		AND shift = ".$shift."
 		AND station = ".$station_ID."
-		order by ID_schedule_position ASC
+		order by weight ASC
 		";
 		$result_positions = $link->query($sql_positions);
 		
@@ -1252,7 +1252,7 @@ elseif  ($shift = 2)
 		WHERE ID_schedule = ".$new_schedule_value."
 		AND shift = ".$shift."
 		AND station = ".$station_ID."
-		order by ID_schedule_position ASC
+		order by weight ASC
 		";
 		$result_positions = $link->query($sql_positions);
 		
