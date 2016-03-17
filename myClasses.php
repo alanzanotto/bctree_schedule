@@ -535,211 +535,6 @@ include 'db_disconnect.php';
 
 
 
-//Function for displaying a scheudle.
-public function display_schedule_winfield_layout($schedule_id)
-{
-//Include database Connection Script
-include 'db_connection.php';
-
-//Retrieve POST Values
-$new_schedule_value = $schedule_id;
-
-//Variables
-$temp_category;
-
-
-//Pre Size & A/B Line
-echo '
-<div class="customPrintPage">
-	<div class="customHeaderDay">Tuesday </br> August 25, 2015 7:00AM - 3:30PM</div>
-	
-		<div class="customStationHeader">PRESIZE</div>
-		<div class="customPositionArea">
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-		</div>
-		
-		
-		<div class="customStationHeader">A / B LINE</div>
-		<div class="customPositionArea">
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			
-		</div>	
-		
-</div>
-';
-
-
-//Pre Size & A/B Line
-echo '
-<div class="customPrintPage">
-	<div class="customHeaderDay">Tuesday </br> August 25, 2015 7:00AM - 3:30PM</div>
-	
-		<div class="customStationHeader">PRESIZE</div>
-		<div class="customPositionArea">
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-		</div>
-		
-		
-		<div class="customStationHeader">A / B LINE</div>
-		<div class="customPositionArea">
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			<div class="customPositions">Alan Zanotto | Dumper Operator</div>
-			
-		</div>	
-		
-</div>
-';
-
-
-/*
-
-echo 
-'
-<div class="customPrintPage">
-<div class="customHeaderDay">Tuesday </br> August 25, 2015 7:00AM - 3:30PM</div>
-<div class="customStationHeader">PRESIZE</div>
-<div class="customStationHeader">A / B LINE</div>
-
-
-</div>
-
-
-<div class="customPrintPage">
-<div class="customHeaderDay">Tuesday </br> August 25, 2015 7:00AM - 3:30PM</div>
-<div class="customStationHeader">PRESIZE</div>
-<div class="customStationHeader">A / B LINE</div>
-
-</div>
-';
-*/
-
-
-
-
-
-
-
-
-
-/* COMMENTING OUT THE SCHEDULE PART TO BUILD THE TEMPLATES
-//retrieve the schedule.
-$sql_schedule = 
-"SELECT * 
-FROM `".$db."`.`schedule_saved`
-WHERE `ID_schedule` = ".$new_schedule_value. "
-ORDER BY `schedule_saved`.`ID_schedule_position` ASC, `schedule_saved`.`ID_employee` ASC";
-$result_schedule = $link->query($sql_schedule);
-
-//echo $sql_schedule;
-
-
-
-
-//temp table column to expand when 9 people in a row.
-$temp_table_column = 0;
-//Loop through the people in the schedule
-while ($row = $result_schedule->fetch_assoc())
-{
-//Setup Variables.
-$employee_ID = $row['ID_employee'];
-$schedule_position_ID = $row['ID_schedule_position'];
-$shift = $row['shift'];
-
-//Retrieve extra information  (employee information/ position information)
-$sql_employee_information = " 
-SELECT senority, first_name, last_name
-FROM `".$db."`.`employee`
-WHERE ID = ".$employee_ID;
-$result_employee_information = $link->query($sql_employee_information);
-$object_employee_information = $result_employee_information->fetch_assoc();
-$employee_senority = $object_employee_information['senority'];
-$employee_first_name = $object_employee_information['first_name'];
-$employee_last_name = $object_employee_information['last_name'];
-
-//echo $employee_first_name . " ". $employee_last_name;
-
-
-$sql_position_information = "
-SELECT name
-FROM `".$db."`.`schedule_position`
-WHERE ID = ".$schedule_position_ID;
-//echo $sql_position_information;
-$result_position_information = $link->query($sql_position_information);
-$object_position_information = $result_position_information->fetch_assoc();
-$schedule_position_name = $object_position_information['name'];
-//echo $schedule_position_name;
-
-
-
-if ( !isset($temp_category) )
-{
-$temp_category = $schedule_position_name;
-echo '<div class="schedule_list_block" id="schedule_list_block">
-<h4>'.$temp_category.'</h4>';//start a fresh category
-
-//echo "(". $employee_senority .") ". $employee_first_name . " ". $employee_last_name .'</br>';//OLIVER
-echo "&#9744". $employee_first_name . " ". $employee_last_name .'</br>';//WINFIELD
-
-}
-
-elseif ($temp_category != $schedule_position_name)
-{
-echo '</div>';//close up last category
-$temp_category = $schedule_position_name;//set new temp category
-
-echo '<div class="schedule_list_block">
-<h4>'.$temp_category.'</h4>';//start a fresh category
-
-//echo "(". $employee_senority .") ". $employee_first_name . " ". $employee_last_name .'</br>';//OLIVER
-echo "&#9744". $employee_first_name . " ". $employee_last_name .'</br>';//WINFIELD
-
-}
-
-else
-{
-	//echo "(". $employee_senority .") ". $employee_first_name . " ". $employee_last_name .'</br>';//OLIVER
-	echo "&#9744". $employee_first_name . " ". $employee_last_name .'</br>';//WINFIELD
-}
-
-
-}//while loop
-
-*/
-
-
-//Include database Termination Script
-include 'db_disconnect.php';
-
-}
 
 
 //Function for making an Excel file and downloading it.
@@ -860,15 +655,16 @@ if ($shifts == 1)
 	
 	
 	
-	//Cell Format Map.  Limit is 10 schedules.
-	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
-	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
-	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
-	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	
+	//Cell Format Map.  Limit is 25 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3", "CM2:CU3", "CV2:DD3", "DE2:DM3", "DN2:DV3", "DW2:EE3", "EF2:EN3", "EO2:EW3", "EX2:FF3", "FG2:FO3", "FP2:FX3", "FY2:GG3", "GH2:GP3", "GQ2:GY3", "GZ2:HH3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5", "CM5:CU5", "CV5:DD5", "DE5:DM5", "DN5:DV5", "DW5:EE5", "EF5:EN5", "EO5:EW5", "EX5:FF5", "FG5:FO5", "FP5:FX5", "FY5:GG5", "GH5:GP5", "GQ5:GY5", "GZ5:HH5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2", "CM2", "CV2", "DE2", "DN2", "DW2", "EF2", "EO2", "EX2", "FG2", "FP2", "FY2", "GH2", "GQ2", "GZ2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5", "CM5", "CV5", "DE5", "DN5", "DW5", "EF5", "EO5", "EX5", "FG5", "FP5", "FY5", "GH5", "GQ5", "GZ5");
 	
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
-	//if stations is more than 10, there will be problem...
+	//if stations is more than 25, there will be problem...
 	//$tmp = 0; $tmp < $stations; $tmp++
 	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
 	$tmp = 0;
@@ -1113,15 +909,15 @@ elseif  ($shift = 2)
 	
 	
 	
-	//Cell Format Map.  Limit is 10 schedules.
-	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
-	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
-	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
-	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	//Cell Format Map.  Limit is 25 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3", "CM2:CU3", "CV2:DD3", "DE2:DM3", "DN2:DV3", "DW2:EE3", "EF2:EN3", "EO2:EW3", "EX2:FF3", "FG2:FO3", "FP2:FX3", "FY2:GG3", "GH2:GP3", "GQ2:GY3", "GZ2:HH3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5", "CM5:CU5", "CV5:DD5", "DE5:DM5", "DN5:DV5", "DW5:EE5", "EF5:EN5", "EO5:EW5", "EX5:FF5", "FG5:FO5", "FP5:FX5", "FY5:GG5", "GH5:GP5", "GQ5:GY5", "GZ5:HH5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2", "CM2", "CV2", "DE2", "DN2", "DW2", "EF2", "EO2", "EX2", "FG2", "FP2", "FY2", "GH2", "GQ2", "GZ2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5", "CM5", "CV5", "DE5", "DN5", "DW5", "EF5", "EO5", "EX5", "FG5", "FP5", "FY5", "GH5", "GQ5", "GZ5");
 	
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
-	//if stations is more than 10, there will be problem...
+	//if stations is more than 25, there will be problem...
 	//$tmp = 0; $tmp < $stations; $tmp++
 	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
 	$tmp = 0;
@@ -1362,15 +1158,15 @@ elseif  ($shift = 2)
 	
 	
 	
-	//Cell Format Map.  Limit is 10 schedules.
-	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3");
-	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5");
-	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2");
-	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5");
+	//Cell Format Map.  Limit is 25 schedules.
+	$header_1 = array("A2:I3", "J2:R3", "S2:AA3", "AB2:AJ3", "AK2:AS3", "AT2:BB3", "BC2:BK3", "BL2:BT3", "BU2:CC3", "CD2:CL3", "CM2:CU3", "CV2:DD3", "DE2:DM3", "DN2:DV3", "DW2:EE3", "EF2:EN3", "EO2:EW3", "EX2:FF3", "FG2:FO3", "FP2:FX3", "FY2:GG3", "GH2:GP3", "GQ2:GY3", "GZ2:HH3");
+	$header_2 = array("A5:I5", "J5:R5", "S5:AA5", "AB5:AJ5", "AK5:AS5", "AT5:BB5", "BC5:BK5", "BL5:BT5", "BU5:CC5", "CD5:CL5", "CM5:CU5", "CV5:DD5", "DE5:DM5", "DN5:DV5", "DW5:EE5", "EF5:EN5", "EO5:EW5", "EX5:FF5", "FG5:FO5", "FP5:FX5", "FY5:GG5", "GH5:GP5", "GQ5:GY5", "GZ5:HH5");
+	$header_3 = array("A2", "J2", "S2", "AB2", "AK2", "AT2", "BC2", "BL2", "BU2", "CD2", "CM2", "CV2", "DE2", "DN2", "DW2", "EF2", "EO2", "EX2", "FG2", "FP2", "FY2", "GH2", "GQ2", "GZ2");
+	$header_4 = array("A5", "J5", "S5", "AB5", "AK5", "AT5", "BC5", "BL5", "BU5", "CD5", "CM5", "CV5", "DE5", "DN5", "DW5", "EF5", "EO5", "EX5", "FG5", "FP5", "FY5", "GH5", "GQ5", "GZ5");
 	
 	
 	//Loop through the schedules and format them into the excel object.  Displaying the headers.
-	//if stations is more than 10, there will be problem...
+	//if stations is more than 25, there will be problem...
 	//$tmp = 0; $tmp < $stations; $tmp++
 	//$page_number = 0 and increments by 9.  This will determine where to start printing poeple onto the schedule.
 	
@@ -1578,8 +1374,96 @@ else
 
 
 
+//Move onto sheeet two and output the schedule again in a list format.
+$objPHPExcel->setActiveSheetIndex(1)
+            ->setCellValue('A1', 'Position')
+            ->setCellValue('B1', 'First Name')
+            ->setCellValue('C1', 'Last Name')
+            ->setCellValue('D1', 'Shift')
+            ->setCellValue('E1', 'Location')
+            ->setCellValue('F1', 'Station');
+
+//Loop through a schedule and add peoples name sinto the cells.  Increment cell value each time.
+
+//retrieve the schedule.
+$sql_schedule = 
+"SELECT * 
+FROM `".$db."`.`schedule_saved`
+WHERE `ID_schedule` = ".$new_schedule_value. " 
+ORDER BY `schedule_saved`.`ID_schedule_position` ASC, `schedule_saved`.`ID_employee` ASC";
+$result_schedule = $link->query($sql_schedule);
+
+$cell_value = 2;
+
+//Loop through the people in the schedule
+while ($row = $result_schedule->fetch_assoc())
+{
+//Setup Variables.
+$employee_ID = $row['ID_employee'];
+$schedule_position_ID = $row['ID_schedule_position'];
+$shift = $row['shift'];
+$shift_english;
+if ($shift == 0)
+$shift_english = "Day";
+else
+$shift_english = "Afternoon";
+$facility_ID = $row['facility'];
+$station_ID = $row['station'];
+
+//Check here if there is employees with id = 0.  If so then we will set the senority, first_name, last_name manually.  These are positions that are unfilled upon schedule generation.
+//Retrieve extra information  (employee information/ position information)
+$employee_senority = "";
+$employee_first_name = "";
+$employee_last_name = "";
+if ($employee_ID == 0)
+{
+	$employee_senority = 0;
+	$employee_first_name = "UNFILLED POSITION";
+	$employee_last_name = "UNFILLED POSITION";
+}
+else
+{
+$sql_employee_information = " 
+SELECT senority, first_name, last_name
+FROM `".$db."`.`employee`
+WHERE ID = ".$employee_ID;
+$result_employee_information = $link->query($sql_employee_information);
+$object_employee_information = $result_employee_information->fetch_assoc();
+$employee_senority = $object_employee_information['senority'];
+$employee_first_name = $object_employee_information['first_name'];
+$employee_last_name = $object_employee_information['last_name'];
+}
+//Retrieve position name 
+$sql_position_information = "
+SELECT name
+FROM `".$db."`.`schedule_position`
+WHERE ID = ".$schedule_position_ID;
+//echo $sql_position_information;
+$result_position_information = $link->query($sql_position_information);
+$object_position_information = $result_position_information->fetch_assoc();
+$schedule_position_name = $object_position_information['name'];
 
 
+
+//Write the user into the spreadsheet.
+$objPHPExcel->setActiveSheetIndex(1)
+			->setCellValue('A'.$cell_value, $schedule_position_name)
+            ->setCellValue('B'.$cell_value, $employee_first_name)
+            ->setCellValue('C'.$cell_value, $employee_last_name)
+            ->setCellValue('D'.$cell_value, $shift_english)
+            ->setCellValue('E'.$cell_value, findFacilityName($facility_ID))
+            ->setCellValue('F'.$cell_value, findStationName($station_ID));
+
+//echo "cell value = " . $cell_value;
+//echo "shift value = " . $shift;
+$cell_value = $cell_value + 1;
+}//End While
+
+
+
+
+//Display the Card View upon opening the schedule.
+$objPHPExcel->setActiveSheetIndex(0);
 
 // Save Excel 2007 file
 //echo date('H:i:s') , " Write to Excel2007 format" , EOL;
