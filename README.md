@@ -6,10 +6,10 @@ This program is built around a business with a union enviorment that employes 10
 
 A typical user of this program would be a Plant Administrator, Manager, Supervisor, or any person who writes a schedule.
 
-Such feature of the program include:
+Features of the program include:
 
 1. Day and Night shifts.
-2. Schedule by Senority.
+2. Schedule Employees by Senority.
 3. Employee Shift preference settings.
 4. Special positions that require certain training over a general employee. (posted positions)
 5. Schedule Templates Administration.
