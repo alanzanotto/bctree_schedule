@@ -291,11 +291,11 @@ elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==0))
 else
 {
 //fail..what just happened?.  The code should never reach this else, but if it does, it shouldn't do anything to how the schedule is created.  I have yet to see this echo appear.
-//I can't think of a scenario where code will get to this spot.  
+//I can't think of a scenario where code will get to this spot.
 echo "SEVENTH CASE: OMG!!! ITS HAPPENING!!!! CALL ALAN!!!!!";
-//go to the next person in the list.  
-//The schedule probably had very little amount of positions and specific 
-//posted position requirement.  
+//go to the next person in the list.
+//The schedule probably had very little amount of positions and specific
+//posted position requirement.
 }
 
 
