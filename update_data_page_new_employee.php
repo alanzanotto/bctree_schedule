@@ -47,8 +47,8 @@ $link->query($sql_update_senority);
 $sql_new_employee_preference = 
 "
 INSERT INTO `".$db."`.`employee_shift_preference` 
-(`ID_employee`, `available`, `shift`, `non_rotational`, `posted_position`) 
-VALUES (".$ID.", '1', 'day', '0', 'Sorter');
+(`ID_employee`, `available`, `shift`, `posted_position`) 
+VALUES (".$ID.", '1', '0', '18');
 ";
 $link->query($sql_new_employee_preference);
 
