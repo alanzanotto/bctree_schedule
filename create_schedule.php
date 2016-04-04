@@ -172,13 +172,13 @@ $emp_shift_num_opposite = 0;
 //NS = Night Shift
 //This is a preference variable. It will use this to try and give them their preferred shift. 
 $PP_DS = calculatePP_DS($link, $db, $emp_posted_position, $temp_template_id, $schedule_ID);
-echo "</br>";
-echo "PP_DS: ".$PP_DS ."</br>";
+//echo "</br>";
+//echo "PP_DS: ".$PP_DS ."</br>";
 $PP_NS = calculatePP_NS($link, $db, $emp_posted_position, $temp_template_id, $schedule_ID);
-echo "PP_NS: ".$PP_NS ."</br>";
+//echo "PP_NS: ".$PP_NS ."</br>";
 //RETRIEVE SP IS AVAILABLE OR NOT.  
 $SP = calculateSP($link, $db, $emp_shift, $temp_template_id, $schedule_ID);
-echo "SP: ".$SP ."</br></br>";
+//echo "SP: ".$SP ."</br></br>";
 
 
 
@@ -189,12 +189,12 @@ if (  (($PP_DS == 1) && ($PP_NS == 1) && ($SP == 1)) ||
 	  (($PP_DS == 1) && (isset($PP_NS) == false) && ($SP == 1)) )
 	  
 	  {
-	  echo "FIRST CASE: ".$emp_first_name . " ".$emp_last_name;
+	  //echo "FIRST CASE: ".$emp_first_name . " ".$emp_last_name;
 	  //In this case, Give the emp their posted position on their shift preference.  Best case for employee.
 	  //echo $emp_first_name ." got to this point";
-	  echo "<br>PP_DS: ". $PP_DS;
-	  echo "<br>PP_NS: ". $PP_NS;
-	  echo "<br>___SP: ". $SP;
+	  //echo "<br>PP_DS: ". $PP_DS;
+	  //echo "<br>PP_NS: ". $PP_NS;
+	  //echo "<br>___SP: ". $SP;
 	  $job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift, $temp_template_id, $schedule_ID);
 	  $job_facility = findFacility($job_id);
 	  $job_station = findStation($job_id);
@@ -211,7 +211,7 @@ elseif ( (($PP_DS == 1) && ($PP_NS == 0) && ($SP == 1)) ||
 		(($PP_DS == 1) && ($PP_NS == NULL) && ($SP == 1))   )
 		
 		{
-		echo "SECOND CASE: ".$emp_first_name . " ".$emp_last_name;;
+		//echo "SECOND CASE: ".$emp_first_name . " ".$emp_last_name;;
 		//The employee will get their PP job but on the opposite shift that they prefer.  They wanted Nights But get bumped to Days due to their PP.
 		//Give emp $PP_DS
 		$emp_shift_num = 0;//only day shift PP available. 0 = Day shift
@@ -243,16 +243,16 @@ elseif (( ($PP_DS == 0) && ($PP_NS == 1) && ($SP == 1)) ||
 	
 elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==1)) 
 		{
-		echo "FORTH CASE: ".$emp_first_name . " ".$emp_last_name;;
+		//echo "FORTH CASE: ".$emp_first_name . " ".$emp_last_name;;
 		//This case happens when their Posted Position are all taken, but there is still room on the schedule as a sorter.  
 		//So they will get scheduled onto their shift prefence(day or night) as a sorter 
 		//Give SP(Shift Preference) as a sorter
 		$emp_posted_position = "18";//18 is sorter
 		//echo "emp_id=".$emp_id;
 		//echo "jobid=".$job_id;
-		echo "findAvailablePP_withShiftPreference...";
+		//echo "findAvailablePP_withShiftPreference...";
 		$job_id = findAvailablePP_withShiftPreference($emp_id, $emp_posted_position, $emp_shift, $temp_template_id, $schedule_ID);
-		echo "findAvailablePP_withShiftPreference...done...returned job_id: ".$job_id;
+		//echo "findAvailablePP_withShiftPreference...done...returned job_id: ".$job_id;
 		//echo "jobid=".$job_id;
 		//echo "</br>";
 		$job_facility = findFacility($job_id);
@@ -266,7 +266,7 @@ elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==1))
 
 elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==0)) 
 		{
-		echo "SIXTH CASE: ".$emp_first_name . " ".$emp_last_name;;
+		//echo "SIXTH CASE: ".$emp_first_name . " ".$emp_last_name;;
 		//This case happens when their Posted Position are all taken, and their shift prefence is all taken as well.  
 		//So they will get scheduled onto (day or night) as a sorter. ****IF there is a spot available, else the schedule is full at this point****
 		//Give SP as a sorter if there is a spot on the schedule
@@ -282,7 +282,7 @@ elseif ( ($PP_DS == 0) && ($PP_NS == 0) && ($SP ==0))
 		}
 		else
 		{
-		echo "The schedule is now typically FULL at this point, or the schedule is looking for the non rotational and or a specific persons posted position to fill the remaining jobs.";
+		//echo "The schedule is now typically FULL at this point, or the schedule is looking for the non rotational and or a specific persons posted position to fill the remaining jobs.";
 		//Ex: No sorters spots left, but schedule needs to find a PP that hasn't been filled yet. Can mean a lower senority person with a PP.
 		//echo "Sorry!  No more sorters allowed on the schedule";
 		}
@@ -300,10 +300,10 @@ echo "SEVENTH CASE: OMG!!! ITS HAPPENING!!!! CALL ALAN!!!!!";
 
 
 
-echo "JobID=".$job_id;
-echo "<br>";
-echo "<br>";
-echo "<br>";
+//echo "JobID=".$job_id;
+//echo "<br>";
+//echo "<br>";
+//echo "<br>";
 }//end ELSE(scheduling of said employee).
 
 }//END LOOP
@@ -311,7 +311,7 @@ echo "<br>";
 //Add Positions That are not filled to the schedule.  Use and employee ID as 0.  
 addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $temp_template_id);
 
-echo "delte auto table....";
+//echo "delte auto table....";
 $sql_truncate_stpl_auto = "TRUNCATE `".$db."`.`schedule_template_position_list_auto`";
 //echo $sql_truncate_stpl_auto;
 $link->query($sql_truncate_stpl_auto);

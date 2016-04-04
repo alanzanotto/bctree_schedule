@@ -110,7 +110,7 @@ $result_PP_NS_quantity = $link->query($sql_PP_NS_quantity);
 $object_PP_NS_quantity = $result_PP_NS_quantity->fetch_assoc();
 $PP_NS_quantity = $object_PP_NS_quantity['quantity'];//pp_ds_quantity is the sum of jobs, that require said positions, that are required for Night shift.
 //echo "ECHO NS_QUANTITY: ".$PP_NS_quantity;
-echo "NS_Saved: ".$PP_NS_saved. " NS_QUANTITY: " .$PP_NS_quantity;
+//echo "NS_Saved: ".$PP_NS_saved. " NS_QUANTITY: " .$PP_NS_quantity;
 
 if ($PP_NS_saved < $PP_NS_quantity)
 {
@@ -252,11 +252,11 @@ AND sp.ID_posted_position_requirement = ".$emp_posted_position. "
 AND stpla.shift = ". $emp_shift_preference. "
 AND stpla.scheduled = 0
 ";
-echo $sql;
+//echo $sql;
 $result = $link->query($sql);
 $object = $result->fetch_assoc();
 
-echo "query rows".mysqli_num_rows($result);
+//echo "query rows".mysqli_num_rows($result);
 return $object['ID'];
 //Include database Termination Script
 include 'db_disconnect.php';
@@ -401,7 +401,7 @@ $result_num_positions_needed = $link->query($sql_num_positions_needed);
 //echo $sql_num_positions_needed;
 $object_num_positions_needed = $result_num_positions_needed->fetch_assoc();
 $num_positions_needed = $object_num_positions_needed['num_positions_needed'];
-echo " number of positoins needed: " .$num_positions_needed;
+//echo " number of positoins needed: " .$num_positions_needed;
 
 //num of positions in the schedule
 $sql_num_saved_positions_scheduled = 
@@ -412,7 +412,7 @@ WHERE `schedule_saved`.`ID_schedule` = ". $schedule_ID;
 $result_num_saved_positions_scheduled = $link->query($sql_num_saved_positions_scheduled);
 $object_num_saved_positions_scheduled = $result_num_saved_positions_scheduled->fetch_assoc();
 $num_saved_positions_scheduled = $object_num_saved_positions_scheduled['num_saved_positions_scheduled'];
-echo "  num_saved_positions_scheduled: ".$num_saved_positions_scheduled;
+//echo "  num_saved_positions_scheduled: ".$num_saved_positions_scheduled;
 
 if ($num_saved_positions_scheduled < $num_positions_needed)
 	{
@@ -441,7 +441,7 @@ function addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $template_ID)
 	$result_unfilled_positions = $link->query($sql_unfilled_positions);
 	
 	//If there is any positions that are unfilled.  Add them to the scheudle with an employee id as 0.
-	echo "results from addingpositios....".mysqli_num_rows($result_unfilled_positions);
+	//echo "results from addingpositios....".mysqli_num_rows($result_unfilled_positions);
 	if (mysqli_num_rows($result_unfilled_positions) > 0)
 	{
 	//Loop through the list of unfilled positions and then add them to the schedule with an employee id = 0.
@@ -449,8 +449,8 @@ function addUnfilledPositionsToSchedule($link, $db, $schedule_ID, $template_ID)
 	{
 		$job_id = $row['ID'];
 		$ID_schedule_position = $row['ID_schedule_position'];
-		echo "Unfilled positions job id=".$job_id;
-		echo "Unfilled positions ID_schedule_position=".$ID_schedule_position;
+		//echo "Unfilled positions job id=".$job_id;
+		//echo "Unfilled positions ID_schedule_position=".$ID_schedule_position;
 		$emp_id = 0;
 		$emp_shift = $row['shift'];
 		$job_facility = $row['facility'];
