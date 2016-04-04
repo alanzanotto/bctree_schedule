@@ -830,12 +830,12 @@ $('#editTemplateHeader').html(head);
 
 
 //found in load_data_page()
-function update_delete_employee_popup(emp_ID, first_name, last_name)
+function update_edit_employee_popup(emp_ID, first_name, last_name)
 {
 //updates header to include name of employee.
-var newTitle = "Delete Employee: " + first_name + " " + last_name + "?";
-$('#popupDeleteEmployeeHeader').html(newTitle);
-$('#deleteEmployeeHidden').val(emp_ID);
+var newTitle = "Edit Employee: " + first_name + " " + last_name + "?";
+$('#popupEditEmployeeHeader').html(newTitle);
+$('#editEmployeeHidden').val(emp_ID);
 
 }
 

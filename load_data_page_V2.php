@@ -185,7 +185,7 @@ echo '</select>';
 echo '
 </p>
 </a>
-<a data-rel="popup" data-position-to="window" data-transition="pop" href="#popupEditEmployee"  onClick="update_delete_employee_popup('.$id_employee.', \'' .$first_name.'\' , \''.$last_name.'\')">Delete User</a>
+<a data-rel="popup" data-position-to="window" data-transition="pop" href="#popupEditEmployee"  onClick="update_edit_employee_popup('.$id_employee.', \'' .$first_name.'\' , \''.$last_name.'\')">Delete User</a>
 </li>
 ';
 
