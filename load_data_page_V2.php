@@ -83,9 +83,9 @@ echo
 <li><a>
 <h2>'.$first_name.' '.$last_name.'</h2>';
 
-echo '<div id="label_block"><p id="label_shift">Shift</p>';
-echo '<p id="label_available">Available</p>';
-echo '<p id="label_posted_position">Posted Position</p></div>';
+echo '<div id="label_block"><p id="label_shift">Shift';
+echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Available';
+echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Posted Position</p></div>';
 //echo '<a href="#popupInfo" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext" title="Learn more">Learn more</a>';
 
 //************************SHIFT**************************
