@@ -182,8 +182,8 @@ echo '</select>';
 
 
 //************************SENORITY CHANGE*******************************
-echo '<button data-rel="popup" data-position-to="window" data-transition="pop" href="#popupSenorityUpEmployee" class="ui-btn ui-btn-inline ui-icon-arrow-u ui-btn-icon-notext">Button</button>';
-echo '<button data-rel="popup" data-position-to="window" data-transition="pop" href="#popupSenorityDownEmployee" class="ui-btn ui-btn-inline ui-icon-arrow-d ui-btn-icon-notext">Button</button>';
+echo '<input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" data-inline="true"  data-rel="popup" data-position-to="window" data-transition="pop" href="#popupSenorityUpEmployee">';
+echo '<input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" data-inline="true"  data-rel="popup" data-position-to="window" data-transition="pop" href="#popupSenorityUpEmployee">';
 //************************SENORITY CHANGE END***************************
 
 
