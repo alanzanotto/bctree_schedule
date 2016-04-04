@@ -751,8 +751,9 @@ if ($shifts == 1)
 		";
 		$result_positions = $link->query($sql_positions);
 		
-		echo $sql_positions;
-		echo "</br></br></br>";
+		//Debugging info
+		//echo $sql_positions;
+		//echo "</br></br></br>";
 		
 		
 		//Put the position into an array to call when ready.
@@ -1004,8 +1005,8 @@ elseif  ($shift = 2)
 		";
 		$result_positions = $link->query($sql_positions);
 		
-		echo $sql_positions;
-		echo "</br></br></br>";
+		//echo $sql_positions;
+		//echo "</br></br></br>";
 		
 		
 		//Put the position into an array to call when ready.
@@ -1256,8 +1257,9 @@ elseif  ($shift = 2)
 		";
 		$result_positions = $link->query($sql_positions);
 		
-		echo $sql_positions;
-		echo "</br></br></br>";
+		//Debugging How many schedules get made
+		//echo $sql_positions;
+		//echo "</br></br></br>";
 		
 		
 		//Put the position into an array to call when ready.
