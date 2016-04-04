@@ -237,7 +237,7 @@
 	</div><!-- /content -->
 	
 	<div data-role="popup" id="popupNewEmployee" data-theme="a" class="ui-corner-all">
-    <form>
+	<form>
 		<div style="padding: 5px 10px;">
 		<h3 id="popupNewEmployeeHeader">New Employee:<label></label></h3>
 		
@@ -253,7 +253,7 @@
 	
 	
 	<div data-role="popup" id="popupDeleteEmployee" data-theme="a" class="ui-corner-all">
-    <form>
+	<form>
 		<div style="padding: 5px 10px;">
 		<h3 id="popupDeleteEmployeeHeader">Delete Employee?<label></label></h3>
 		<input type="hidden" id="deleteEmployeeHidden" value="">
@@ -328,7 +328,7 @@
 	
 	
 	<div data-role="popup" id="newPopupScheduleRandomize" data-theme="a" class="ui-corner-all">
-    <form>
+	<form>
 		<div style="padding: 5px 10px;">
 		<h3 id="editPositionHeader">Shuffle the Sorters?</h3>
 
