@@ -33,7 +33,7 @@ $sql_results = $link->query($sql);
 //List Begin
 echo 
 '
-<ul data-role="listview" data-inset="true"  data-filter="true" data-split-icon="delete" data-split-theme="a">';
+<ul data-role="listview" data-inset="true"  data-filter="true" data-split-icon="gear" data-split-theme="a">';
 
 while($row = $sql_results->fetch_assoc())
 {
@@ -182,15 +182,15 @@ echo '</select>';
 
 
 //************************SENORITY CHANGE*******************************
-echo '<input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" data-inline="true"  data-rel="popup" data-position-to="window" data-transition="pop" href="#popupSenorityUpEmployee">';
-echo '<input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" data-inline="true"  data-rel="popup" data-position-to="window" data-transition="pop" href="#popupSenorityUpEmployee">';
+echo '<input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" data-inline="true">';
+echo '<input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" data-inline="true">';
 //************************SENORITY CHANGE END***************************
 
 
 echo '
 </p>
 </a>
-<a data-rel="popup" data-position-to="window" data-transition="pop" href="#popupDeleteEmployee"  onClick="update_delete_employee_popup('.$id_employee.', \'' .$first_name.'\' , \''.$last_name.'\')">Delete User</a>
+<a data-rel="popup" data-position-to="window" data-transition="pop" href="#popupEditEmployee"  onClick="update_delete_employee_popup('.$id_employee.', \'' .$first_name.'\' , \''.$last_name.'\')">Delete User</a>
 </li>
 ';
 
