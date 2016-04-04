@@ -259,8 +259,8 @@
 		<input type="hidden" id="editEmployeeHidden" value="">
 		</br><hr>
 		<a href="#data_page" data-role="button" data-icon="delete" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_deleteEmployee()">Delete</a>
-		<a href="#data_page" data-role="button" data-icon="arrow-u" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick=""></a>
-		<a href="#data_page" data-role="button" data-icon="arrow-d" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick=""></a>
+		<a href="#data_page" data-role="button" data-icon="arrow-u" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_senorityUpEmployee()"></a>
+		<a href="#data_page" data-role="button" data-icon="arrow-d" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_senorityDownEmployee()"></a>
 		<a href="#data_page" data-role="button"  data-inline="true">Cancel</a>
 
 		</div>

@@ -841,7 +841,7 @@ $('#editEmployeeHidden').val(emp_ID);
 
 function update_data_page_deleteEmployee()
 {
-var employee_ID = $('#deleteEmployeeHidden').val();
+var employee_ID = $('#editEmployeeHidden').val();
 
 $.ajax({
 		url: "update_data_page_deleteEmployee.php",
@@ -849,6 +849,50 @@ $.ajax({
 		data:
 		{
 			employee_ID: employee_ID
+		},//data
+		complete: function(xhr, status)
+		{
+		//alert("Update complete!");
+		}
+	}//ajax
+	)//$.ajax
+	
+setTimeout(function(){load_data_page()}, 500);
+}
+
+function update_data_page_senorityUpEmployee()
+{
+var employee_ID = $('#editEmployeeHidden').val();
+
+$.ajax({
+		url: "update_data_page_senorityEmployee.php",
+		method: "POST",
+		data:
+		{
+			employee_ID: employee_ID,
+			senority: 1
+		},//data
+		complete: function(xhr, status)
+		{
+		//alert("Update complete!");
+		}
+	}//ajax
+	)//$.ajax
+	
+setTimeout(function(){load_data_page()}, 500);
+}
+
+function update_data_page_senorityDownEmployee()
+{
+var employee_ID = $('#editEmployeeHidden').val();
+
+$.ajax({
+		url: "update_data_page_senorityEmployee.php",
+		method: "POST",
+		data:
+		{
+			employee_ID: employee_ID,
+			senority: -1
 		},//data
 		complete: function(xhr, status)
 		{
