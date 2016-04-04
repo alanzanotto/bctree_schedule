@@ -181,11 +181,6 @@ echo '</select>';
 //************************POSTED POSITION END************
 
 
-//************************SENORITY CHANGE*******************************
-echo '<input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" data-inline="true">';
-echo '<input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" data-inline="true">';
-//************************SENORITY CHANGE END***************************
-
 
 echo '
 </p>
