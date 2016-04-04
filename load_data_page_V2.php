@@ -181,7 +181,10 @@ echo '</select>';
 //************************POSTED POSITION END************
 
 
-
+//************************SENORITY CHANGE*******************************
+echo '<button class="ui-btn ui-btn-inline ui-icon-delete ui-btn-icon-notext">Button</button>';
+echo '<button class="ui-btn ui-btn-inline ui-icon-delete ui-btn-icon-notext">Button</button>';
+//************************SENORITY CHANGE END***************************
 
 
 echo '
