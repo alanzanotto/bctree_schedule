@@ -118,7 +118,7 @@ $schedule_ID = $row_schedule_ID['LAST_INSERT_ID()'];
 $sql_employee = 
 'SELECT * 
 FROM `'.$db.'`.`employee` e, `'.$db.'`.`employee_shift_preference` esp 
-WHERE e.`ID` = esp.`ID_employee` AND  esp.`available` = 1';
+WHERE e.`ID` = esp.`ID_employee` AND  esp.`available` = 1 ORDER BY e.senority';
 //echo $sql_employee;//debugging
 $result_employee = $link->query($sql_employee);
 
