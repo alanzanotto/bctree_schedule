@@ -23,7 +23,7 @@ include 'db_connection.php';
 //Loop Through Employees table 1 by 1 and add there information to the page.
 
 //sql to select * from employees. sort by ID ASC
-$sql = "SELECT * FROM `".$db."`.`employee`";
+$sql = "SELECT * FROM `".$db."`.`employee` ORDER BY senority";
 //echo $sql;
 $sql_results = $link->query($sql);
 
