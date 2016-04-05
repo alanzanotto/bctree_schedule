@@ -870,7 +870,7 @@ $.ajax({
 		data:
 		{
 			employee_ID: employee_ID,
-			senority: 1
+			senority: -1//use -1 because lower number is higher senority
 		},//data
 		complete: function(xhr, status)
 		{
@@ -892,7 +892,7 @@ $.ajax({
 		data:
 		{
 			employee_ID: employee_ID,
-			senority: -1
+			senority: 1//use 1 because higher number is lower senority
 		},//data
 		complete: function(xhr, status)
 		{
