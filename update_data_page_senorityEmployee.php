@@ -20,10 +20,10 @@
 include 'db_connection.php';
 
 //Retrieve POST Values
-$user_id = $_POST["new_user_id"];
+$user_id = $_POST["employee_ID"];
 $senority_change = $_POST["senority"];
-$user_id = 1;
-$senority_change = 1;
+//$user_id = 1;
+//$senority_change = -1;
 
 $sql_last_senority = 
 "
@@ -61,7 +61,7 @@ echo "last_senority: " . $last_senority;
 
 //Don't allow senority to be increased if user is already #1 || Don't allow senority to be decreased if user is already at the bottom
 // || don't allow senority to change if user_id doesn't exits.
-if ( (($user_senority == 1) && ($senority_change == 1)) || (($user_senority == $last_senority) && ($senority_change == -1)) || ($user_senority == ""))
+if ( (($user_senority == 1) && ($senority_change == -1)) || (($user_senority == $last_senority) && ($senority_change == 1)) || ($user_senority == ""))
 {
     //Do nothing
     echo "</br>";
@@ -75,8 +75,45 @@ else
     echo "</br>";
     echo "The Senority has passed the test and can be changed";
     $other_employee_senority = $user_senority + $senority_change;
+    echo "</br>";
+    echo "other_employee_senority: ". $other_employee_senority;
     
-    //Select other employees Senority Number.
+    
+    //Select the ID of the person with "other_employee_senority" value
+    $sql_other_employee_ID = 
+    "
+    SELECT ID
+    FROM `".$db."`.`employee`
+    WHERE senority = ".$other_employee_senority."
+    LIMIT 1
+    ";
+    $result_other_employee_ID = $link->query($sql_other_employee_ID);
+    $object_other_employee_ID = $result_other_employee_ID->fetch_assoc();
+    $other_employee_ID = $object_other_employee_ID['ID'];
+    
+     echo "</br>";
+     echo "other_employee_ID: ".$other_employee_ID;
+     
+     //SQL to UPDATE each Employee.
+     
+     $sql_employee_main =  
+     "
+     UPDATE employee
+     SET senority = ".$other_employee_senority."
+     WHERE ID = ".$user_id;
+     
+     $sql_employee_other = 
+     "
+     UPDATE employee
+     SET senority = ".$user_senority."
+     WHERE ID = ".$other_employee_ID;
+     
+     $link->query($sql_employee_main);
+     $link->query($sql_employee_other);
+     
+     echo "</br>";
+     echo "Done processing request";
+    
 }
 //else case means we can adjust the senority.
 
