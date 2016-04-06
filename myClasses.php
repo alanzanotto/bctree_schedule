@@ -208,22 +208,15 @@ public function popup_edit_position_scheduled_template()
 //Echo the EDIT POSITION POPUP	
 $edit_popup =  '
 	<div data-role="popup" id="popupEditPosition" data-theme="a" class="ui-corner-all">
-    <form>
+	<form>
 		<div style="padding: 5px 10px;">
 		<h3 id="editPositionHeader">Edit Position:<label></label></h3>
-			 <input type="hidden" id="hiddenPositionID"  value="">
+			<input type="hidden" id="hiddenPositionID"  value="">
 			<label for="slider-fill">Quantity:</label>
 			<input type="range" name="slider-fill" id="slider-fill_editPosition" value="1" min="1" max="50" data-highlight="true">';
 
-		/*
-		<fieldset data-role="controlgroup" data-type="horizontal" >
-		    <legend>Shift:</legend>
-		        <input type="radio" name="radio-choice_editPosition" id="radio-choice-day_editPosition" value="0">
-		        <label for="radio-choice-day_editPosition">Day</label>
-		        <input type="radio" name="radio-choice_editPosition" id="radio-choice-night_editPosition" value="1">
-		        <label for="radio-choice-night_editPosition">Night</label>
-		</fieldset>';*/
-$mySchedule = new Schedule;		
+		
+$mySchedule = new Schedule;
 $menu_facility = $mySchedule->drop_down_menu_facility_list();
 $edit_popup = $edit_popup .	'<select name="select-choice-newFacility" id="select-choice-editFacility">';
 $edit_popup = $edit_popup . $menu_facility;
@@ -239,6 +232,8 @@ $edit_popup = $edit_popup . '
 		</br><hr>
 		<a href="#settings_create_schedule_templates_page" data-role="button" data-icon="check" data-inline="true" onClick="update_settings_edit_template_position_save()">Save</a>
 		<a href="#settings_create_schedule_templates_page" data-role="button" data-icon="delete" data-inline="true" onClick="update_settings_edit_template_position_delete()">Remove</a>
+		<a href="#settings_create_schedule_templates_page" data-role="button" data-icon="arrow-u" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Positions..." onClick="update_settings_template_position_list_orderUP()"></a>
+		<a href="#settings_create_schedule_templates_page" data-role="button" data-icon="arrow-d" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Positions..." onClick="update_settings_template_position_list_orderDOWN()"></a>
 		<a href="#settings_create_schedule_templates_page" data-role="button"  data-inline="true">Cancel</a>
 
 		</div>
