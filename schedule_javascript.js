@@ -910,7 +910,7 @@ var position_ID = $('#hiddenPositionID').val();
 var template_ID = $('#select-choice-template').val();
 
 $.ajax({
-		url: "update_settings_template_position_list_order.php",
+		url: "update_settings_edit_template_position_order.php",
 		method: "POST",
 		data:
 		{
@@ -934,7 +934,7 @@ var position_ID = $('#hiddenPositionID').val();
 var template_ID = $('#select-choice-template').val();
 
 $.ajax({
-		url: "update_settings_template_position_list_order.php",
+		url: "update_settings_edit_template_position_order.php",
 		method: "POST",
 		data:
 		{
