@@ -237,7 +237,7 @@
 	</div><!-- /content -->
 	
 	<div data-role="popup" id="popupNewEmployee" data-theme="a" class="ui-corner-all">
-    <form>
+	<form>
 		<div style="padding: 5px 10px;">
 		<h3 id="popupNewEmployeeHeader">New Employee:<label></label></h3>
 		
@@ -252,18 +252,21 @@
 	</div>
 	
 	
-	<div data-role="popup" id="popupDeleteEmployee" data-theme="a" class="ui-corner-all">
-    <form>
+	<div data-role="popup" id="popupEditEmployee" data-theme="a" class="ui-corner-all">
+	<form>
 		<div style="padding: 5px 10px;">
-		<h3 id="popupDeleteEmployeeHeader">Delete Employee?<label></label></h3>
-		<input type="hidden" id="deleteEmployeeHidden" value="">
+		<h3 id="popupEditEmployeeHeader">Edit Employee: <label></label></h3>
+		<input type="hidden" id="editEmployeeHidden" value="">
 		</br><hr>
 		<a href="#data_page" data-role="button" data-icon="delete" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_deleteEmployee()">Delete</a>
+		<a href="#data_page" data-role="button" data-icon="arrow-u" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_senorityUpEmployee()"></a>
+		<a href="#data_page" data-role="button" data-icon="arrow-d" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_senorityDownEmployee()"></a>
 		<a href="#data_page" data-role="button"  data-inline="true">Cancel</a>
 
 		</div>
 	</form>
 	</div>
+	
 	
 	<div data-role="footer">
 		<h4></h4>
@@ -328,7 +331,7 @@
 	
 	
 	<div data-role="popup" id="newPopupScheduleRandomize" data-theme="a" class="ui-corner-all">
-    <form>
+	<form>
 		<div style="padding: 5px 10px;">
 		<h3 id="editPositionHeader">Shuffle the Sorters?</h3>
 

@@ -23,7 +23,7 @@ include 'db_connection.php';
 //Loop Through Employees table 1 by 1 and add there information to the page.
 
 //sql to select * from employees. sort by ID ASC
-$sql = "SELECT * FROM `".$db."`.`employee`";
+$sql = "SELECT * FROM `".$db."`.`employee` ORDER BY senority";
 //echo $sql;
 $sql_results = $link->query($sql);
 
@@ -33,7 +33,7 @@ $sql_results = $link->query($sql);
 //List Begin
 echo 
 '
-<ul data-role="listview" data-inset="true"  data-filter="true" data-split-icon="delete" data-split-theme="a">';
+<ul data-role="listview" data-inset="true"  data-filter="true" data-split-icon="gear" data-split-theme="a">';
 
 while($row = $sql_results->fetch_assoc())
 {
@@ -182,12 +182,10 @@ echo '</select>';
 
 
 
-
-
 echo '
 </p>
 </a>
-<a data-rel="popup" data-position-to="window" data-transition="pop" href="#popupDeleteEmployee"  onClick="update_delete_employee_popup('.$id_employee.', \'' .$first_name.'\' , \''.$last_name.'\')">Delete User</a>
+<a data-rel="popup" data-position-to="window" data-transition="pop" href="#popupEditEmployee"  onClick="update_edit_employee_popup('.$id_employee.', \'' .$first_name.'\' , \''.$last_name.'\')">Delete User</a>
 </li>
 ';
 

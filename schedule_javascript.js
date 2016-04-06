@@ -830,18 +830,18 @@ $('#editTemplateHeader').html(head);
 
 
 //found in load_data_page()
-function update_delete_employee_popup(emp_ID, first_name, last_name)
+function update_edit_employee_popup(emp_ID, first_name, last_name)
 {
 //updates header to include name of employee.
-var newTitle = "Delete Employee: " + first_name + " " + last_name + "?";
-$('#popupDeleteEmployeeHeader').html(newTitle);
-$('#deleteEmployeeHidden').val(emp_ID);
+var newTitle = "Edit Employee: " + first_name + " " + last_name + "?";
+$('#popupEditEmployeeHeader').html(newTitle);
+$('#editEmployeeHidden').val(emp_ID);
 
 }
 
 function update_data_page_deleteEmployee()
 {
-var employee_ID = $('#deleteEmployeeHidden').val();
+var employee_ID = $('#editEmployeeHidden').val();
 
 $.ajax({
 		url: "update_data_page_deleteEmployee.php",
@@ -849,6 +849,50 @@ $.ajax({
 		data:
 		{
 			employee_ID: employee_ID
+		},//data
+		complete: function(xhr, status)
+		{
+		//alert("Update complete!");
+		}
+	}//ajax
+	)//$.ajax
+	
+setTimeout(function(){load_data_page()}, 500);
+}
+
+function update_data_page_senorityUpEmployee()
+{
+var employee_ID = $('#editEmployeeHidden').val();
+
+$.ajax({
+		url: "update_data_page_senorityEmployee.php",
+		method: "POST",
+		data:
+		{
+			employee_ID: employee_ID,
+			senority: -1//use -1 because lower number is higher senority
+		},//data
+		complete: function(xhr, status)
+		{
+		//alert("Update complete!");
+		}
+	}//ajax
+	)//$.ajax
+	
+setTimeout(function(){load_data_page()}, 500);
+}
+
+function update_data_page_senorityDownEmployee()
+{
+var employee_ID = $('#editEmployeeHidden').val();
+
+$.ajax({
+		url: "update_data_page_senorityEmployee.php",
+		method: "POST",
+		data:
+		{
+			employee_ID: employee_ID,
+			senority: 1//use 1 because higher number is lower senority
 		},//data
 		complete: function(xhr, status)
 		{
