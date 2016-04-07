@@ -20,13 +20,16 @@
 include 'db_connection.php';
 
 //Retrieve POST Values
-//$position_ID = $_POST["position_ID"];
-//$template_ID = $_POST["template_ID"];
-//$ordering = $_POST["ordering"];
 
-$position_ID = 453;
-$template_ID = 27;
-$ordering = 1;
+$position_ID = $_POST["position_ID"];
+$template_ID = $_POST["template_ID"];
+$ordering = $_POST["ordering"];
+
+//Debugging Test Variables
+//$position_ID = 455;
+//$template_ID = 27;
+//$ordering = 1;
+
 
 echo "Position ID: " .$position_ID;
 echo "</br>";
@@ -73,8 +76,6 @@ echo "First Poistion: " .$first_position;
 echo "</br>";
 echo "Last Position: ". $last_position;
 
-//this query will be used to help flip the positions.
-//SELECT * FROM schedule_template_position_list WHERE id = (SELECT MAX(id) FROM schedule_template_position_list WHERE id < 453)
 
 //Don't allow position to be increased if user is already #1 || Don't allow position to be decreased if user is already at the bottom
 // || don't allow position to change if user_id doesn't exits.
@@ -85,21 +86,84 @@ if ( (($position_ID == $first_position) && ($ordering == -1)) || (($position_ID 
     echo "</br>";
     echo "The position is not ok to change.";
 }
-//else
+else
 {
     //Proceed with the position flip.
     echo "</br>";
     echo "</br>";
     echo "The position has passed the test and can be changed";
-    $other_employee_senority = $user_senority + $senority_change;
-    echo "</br>";
-    echo "other_employee_senority: ". $other_employee_senority;
     
-     
-     //SQL to UPDATE each Employee.
-     
-     echo "</br>";
-     echo "Done processing request";
+
+    $other_position = "";
+    //Direction of Change.
+    if ($ordering == -1)
+    {
+        //Bump position higher.  We can assume there is a higher postion
+        //Retrive the position before the current one we are working with.
+        $sql_other_position = 
+        "
+        SELECT ID 
+        FROM `".$db."`.`schedule_template_position_list` 
+        WHERE ID = (SELECT MAX(ID) FROM `".$db."`.`schedule_template_position_list` WHERE ID < ".$position_ID.")
+        ";
+        $result_other_position = $link->query($sql_other_position);
+        $object_other_position = $result_other_position->fetch_assoc();
+        $other_position = $object_other_position['ID'];
+        
+    }
+    else
+    {
+        //Bump Position lower.  We can assume there is a lower position.
+        //Retrive the position after the current one we are working with.
+        $sql_other_position = 
+        "
+        SELECT ID 
+        FROM `".$db."`.`schedule_template_position_list` 
+        WHERE ID = (SELECT MIN(ID) FROM `".$db."`.`schedule_template_position_list` WHERE ID > ".$position_ID.")
+        ";
+        echo "</br>";
+        echo $sql_other_position;
+        echo "</br>";
+        $result_other_position = $link->query($sql_other_position);
+        $object_other_position = $result_other_position->fetch_assoc();
+        $other_position = $object_other_position['ID'];
+    
+    }
+    
+    
+    echo "</br>";
+    echo "Other Position now...: ".$other_position;
+    echo "</br>";
+    //SQL to UPDATE each Employee.
+    
+    //Primary key doesn't allow us to easly swap the IDS. so we have to set the first change to ID 0. and then correct it after the other ID has been trasfered 
+    //over.
+    $sql_update_postion = 
+    "
+    UPDATE `".$db."`.`schedule_template_position_list`
+    SET ID = 0
+    WHERE ID = ".$position_ID;
+    $link->query($sql_update_postion);
+    
+    //Change the other position.
+    $sql_update_other_position =
+    "
+    UPDATE `".$db."`.`schedule_template_position_list`
+    SET ID = ".$position_ID."
+    WHERE ID = ".$other_position;
+    $link->query($sql_update_other_position);
+    
+    $sql_update_postion = 
+    "
+    UPDATE `".$db."`.`schedule_template_position_list`
+    SET ID = ".$other_position."
+    WHERE ID = 0";
+    $link->query($sql_update_postion);
+    
+    
+    
+    
+    echo "Done processing request";
     
 }
 //else case means we can adjust the position.
