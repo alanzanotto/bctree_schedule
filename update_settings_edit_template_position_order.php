@@ -68,13 +68,17 @@ echo $sql_first_position;
 echo "</br>";
 echo $sql_last_position;
 
+echo "</br>";
+echo "First Poistion: " .$first_position;
+echo "</br>";
+echo "Last Position: ". $last_position;
 
 //this query will be used to help flip the positions.
 //SELECT * FROM schedule_template_position_list WHERE id = (SELECT MAX(id) FROM schedule_template_position_list WHERE id < 453)
 
 //Don't allow position to be increased if user is already #1 || Don't allow position to be decreased if user is already at the bottom
 // || don't allow position to change if user_id doesn't exits.
-//if ( )
+if ( (($position_ID == $first_position) && ($ordering == -1)) || (($position_ID == $last_position) && ($ordering == 1)) || ($position_ID == "") )
 {
     //Do nothing
     echo "</br>";
