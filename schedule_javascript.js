@@ -904,5 +904,51 @@ $.ajax({
 setTimeout(function(){load_data_page()}, 500);
 }
 
+function update_settings_template_position_list_orderUP()
+{
+var position_ID = $('#hiddenPositionID').val();
+var template_ID = $('#select-choice-template').val();
 
+$.ajax({
+		url: "update_settings_edit_template_position_order.php",
+		method: "POST",
+		data:
+		{
+			position_ID: position_ID,
+			template_ID: template_ID,
+			ordering: -1//use -1 because higher number is lower senority
+		},//data
+		complete: function(xhr, status)
+		{
+		//alert("Update complete!");
+		}
+	}//ajax
+	)//$.ajax
+	
+setTimeout(function(){load_settings_create_schedule_template_position_list($('#select-choice-template').val())}, 500);
+}
+
+function update_settings_template_position_list_orderDOWN()
+{
+var position_ID = $('#hiddenPositionID').val();
+var template_ID = $('#select-choice-template').val();
+
+$.ajax({
+		url: "update_settings_edit_template_position_order.php",
+		method: "POST",
+		data:
+		{
+			position_ID: position_ID,
+			template_ID: template_ID,
+			ordering: 1//use 1 because higher number is lower senority
+		},//data
+		complete: function(xhr, status)
+		{
+		//alert("Update complete!");
+		}
+	}//ajax
+	)//$.ajax
+	
+setTimeout(function(){load_settings_create_schedule_template_position_list($('#select-choice-template').val())}, 500);
+}
 
