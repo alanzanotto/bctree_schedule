@@ -20,8 +20,8 @@
 include 'db_connection.php';
 
 //Retrieve POST Values
-//$schedule_ID = $_POST["schedule_ID"];
-$schedule_ID = 2;
+$schedule_ID = $_POST["schedule_ID"];
+//$schedule_ID = 3;
 
 //Setup Other Variables.
 $station = 21;//Cherry Line Sorting is this ID.
@@ -100,7 +100,12 @@ while ($row = $result_day_cherry_sorters->fetch_assoc())
     $weight = $row['weight'];
     
     echo "</br></br>";
-    echo "UserID = ".$ID_employee." OLD Position: ".$ID_schedule_position." NEW Position: ".$day_array[$arr_index];
+    echo "UserID = ".$ID_employee;
+    echo "</br>";
+    echo "OLD Position: ".$ID_schedule_position;
+    echo "</br>";
+    echo "NEW Position: ".$day_array[$arr_index];
+    echo "</br>";
     
     $sql_update_person =
     "
@@ -197,7 +202,12 @@ while ($row = $result_day_cherry_sorters->fetch_assoc())
     $weight = $row['weight'];
     
     echo "</br></br>";
-    echo "UserID = ".$ID_employee." OLD Position: ".$ID_schedule_position." NEW Position: ".$day_array[$arr_index];
+    echo "UserID = ".$ID_employee;
+    echo "</br>";
+    echo "OLD Position: ".$ID_schedule_position;
+    echo "</br>";
+    echo "NEW Position: ".$day_array[$arr_index];
+    echo "</br>";
     
     $sql_update_person =
     "
