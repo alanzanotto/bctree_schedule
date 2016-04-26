@@ -20,11 +20,12 @@
 include 'db_connection.php';
 
 //Retrieve POST Values
-$schedule_ID = $_POST["schedule_ID"];
-//$schedule_ID = 9;
+//$schedule_ID = $_POST["schedule_ID"];
+$schedule_ID = 2;
 
 //Setup Other Variables.
 $station = 21;//Cherry Line Sorting is this ID.
+$non_rotation = 31;//this is the Sort 1(Non-Rotational) position ID.
 $shift;
 $day_array = array();
 $day_weight_array = array();
@@ -50,7 +51,8 @@ FROM `".$db."`.`schedule_saved`
 WHERE ID_schedule = ".$schedule_ID." 
 AND shift = ".$shift."
 AND station = ".$station ."
-ORDER BY ID_employee";
+AND ID_schedule_position != ".$non_rotation."
+ORDER BY weight";
 echo "</br></br></br>";
 echo $sql_day_cherry_sorters;
 $result_day_cherry_sorters = $link->query($sql_day_cherry_sorters);
@@ -79,6 +81,7 @@ FROM `".$db."`.`schedule_saved`
 WHERE ID_schedule = ".$schedule_ID." 
 AND shift = ".$shift."
 AND station = ".$station ."
+AND ID_schedule_position != ".$non_rotation."
 ORDER BY RAND()";
 
 echo "</br></br></br>After Randomization:</br></br></br>";
@@ -145,7 +148,8 @@ FROM `".$db."`.`schedule_saved`
 WHERE ID_schedule = ".$schedule_ID." 
 AND shift = ".$shift."
 AND station = ".$station ."
-ORDER BY ID_employee";
+AND ID_schedule_position != ".$non_rotation."
+ORDER BY weight";
 echo "</br></br></br>";
 echo $sql_day_cherry_sorters;
 $result_day_cherry_sorters = $link->query($sql_day_cherry_sorters);
@@ -174,6 +178,7 @@ FROM `".$db."`.`schedule_saved`
 WHERE ID_schedule = ".$schedule_ID." 
 AND shift = ".$shift."
 AND station = ".$station ."
+AND ID_schedule_position != ".$non_rotation."
 ORDER BY RAND()";
 
 echo "</br></br></br>After Randomization:</br></br></br>";
