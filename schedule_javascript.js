@@ -834,9 +834,36 @@ function update_edit_employee_popup(emp_ID, first_name, last_name)
 {
 //updates header to include name of employee.
 var newTitle = "Edit Employee: " + first_name + " " + last_name + "?";
+$('#popupEditFirstName').val(first_name);
+$('#popupEditLastName').val(last_name);
 $('#popupEditEmployeeHeader').html(newTitle);
 $('#editEmployeeHidden').val(emp_ID);
 
+}
+
+function update_data_page_editEmployeeName()
+{
+var employee_ID = $('#editEmployeeHidden').val();
+var first_name = $('#popupEditFirstName').val();
+var last_name = $('#popupEditLastName').val();
+
+$.ajax({
+		url: "update_data_page_editEmployee.php",
+		method: "POST",
+		data:
+		{
+			employee_ID: employee_ID,
+			first_name: first_name,
+			last_name: last_name
+		},//data
+		complete: function(xhr, status)
+		{
+		//alert("Update complete!");
+		}
+	}//ajax
+	)//$.ajax
+	
+setTimeout(function(){load_data_page()}, 500);
 }
 
 function update_data_page_deleteEmployee()
@@ -859,6 +886,7 @@ $.ajax({
 	
 setTimeout(function(){load_data_page()}, 500);
 }
+
 
 function update_data_page_senorityUpEmployee()
 {
