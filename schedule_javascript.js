@@ -834,6 +834,8 @@ function update_edit_employee_popup(emp_ID, first_name, last_name)
 {
 //updates header to include name of employee.
 var newTitle = "Edit Employee: " + first_name + " " + last_name + "?";
+$('#popupEditFirstName').val(first_name);
+$('#popupEditLastName').val(last_name);
 $('#popupEditEmployeeHeader').html(newTitle);
 $('#editEmployeeHidden').val(emp_ID);
 

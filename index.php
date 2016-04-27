@@ -257,6 +257,10 @@
 		<div style="padding: 5px 10px;">
 		<h3 id="popupEditEmployeeHeader">Edit Employee: <label></label></h3>
 		<input type="hidden" id="editEmployeeHidden" value="">
+		
+		<input type="text" name="popupEditFirstName" id="popupEditFirstName" value=""  data-theme="a">
+		<input type="text" name="popupEditLastName" id="popupEditLastName" value=""  data-theme="a">
+		
 		</br><hr>
 		<a href="#data_page" data-role="button" data-icon="delete" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_deleteEmployee()">Delete</a>
 		<a href="#data_page" data-role="button" data-icon="arrow-u" data-iconpos="notext" data-inline="true" class="show-page-loading-msg" data-textonly="true" data-textvisible="true" data-msgtext="Loading Employees..." onClick="update_data_page_senorityUpEmployee()"></a>
