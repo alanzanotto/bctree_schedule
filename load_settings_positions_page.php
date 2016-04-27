@@ -41,9 +41,9 @@ $result_pp_r = $link->query($sql_pp_r);
 
 echo '
 <div class="ui-field-contain">
-    <label for="select-pp_id">Posted Position Requirement:</label>
-    <select name="select-pp_id" id="select-pp_id">
-        <option value="select">Select</option>';
+	<label for="select-pp_id">Posted Position Requirement:</label>
+	<select name="select-pp_id" id="select-pp_id">
+	<option value="select">Select</option>';
 
 //PP
 while ($row = $result_pp_r->fetch_assoc())
@@ -55,7 +55,7 @@ echo '<option value="'.$PP_ID.'">'.$PP_name.'</option>';
 
 
 echo '
-    </select>
+	</select>
 </div>
 ';
 	
@@ -63,8 +63,8 @@ echo '
 <div class="ui-field-contain">
 <label for="slider-non_rotational">Non Rotational:</label>
 <select name="slider2" id="slider-non_rotational" data-role="slider">
-    <option value="0">No</option>
-    <option value="1">Yes</option>
+	<option value="0">No</option>
+	<option value="1">Yes</option>
 </select>
 </div>
 	<a href="#" class="ui-shadow ui-btn ui-corner-all" onclick="submit_new_position(document.getElementById(\'text-name\').value, document.getElementById(\'select-pp_id\').value, document.getElementById(\'slider-non_rotational\').value)">Submit Form</a>
@@ -165,8 +165,8 @@ echo
 }
 
 echo '
-     </tbody>
-   </table>
+	</tbody>
+	</table>
 ';
 
 
