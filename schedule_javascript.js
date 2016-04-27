@@ -848,7 +848,7 @@ var first_name = $('#popupEditFirstName').val();
 var last_name = $('#popupEditLastName').val();
 
 $.ajax({
-		url: "update_data_page_editEmployeeName.php",
+		url: "update_data_page_editEmployee.php",
 		method: "POST",
 		data:
 		{
