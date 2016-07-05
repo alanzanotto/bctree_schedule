@@ -26,9 +26,9 @@ $template_ID = $_POST["template_ID"];
 $ordering = $_POST["ordering"];
 
 //Debugging Test Variables
-//$position_ID = 455;
-//$template_ID = 27;
-//$ordering = 1;
+//$position_ID = 631;
+//$template_ID = 41;
+//$ordering = -1;
 
 
 echo "Position ID: " .$position_ID;
@@ -104,7 +104,7 @@ else
         "
         SELECT ID 
         FROM `".$db."`.`schedule_template_position_list` 
-        WHERE ID = (SELECT MAX(ID) FROM `".$db."`.`schedule_template_position_list` WHERE ID < ".$position_ID.")
+        WHERE ID = (SELECT MAX(ID) FROM `".$db."`.`schedule_template_position_list` WHERE ID_template = ".$template_ID." AND ID < ".$position_ID.")
         ";
         $result_other_position = $link->query($sql_other_position);
         $object_other_position = $result_other_position->fetch_assoc();
@@ -119,7 +119,7 @@ else
         "
         SELECT ID 
         FROM `".$db."`.`schedule_template_position_list` 
-        WHERE ID = (SELECT MIN(ID) FROM `".$db."`.`schedule_template_position_list` WHERE ID > ".$position_ID.")
+        WHERE ID = (SELECT MIN(ID) FROM `".$db."`.`schedule_template_position_list` WHERE ID_template = ".$template_ID." AND ID > ".$position_ID.")
         ";
         echo "</br>";
         echo $sql_other_position;
